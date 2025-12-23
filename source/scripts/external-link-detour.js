@@ -7,57 +7,57 @@
 
 "use strict";
 
-//  exitPage.value = "https://cra-design.github.io/gst-hst-business/exit-intent.html", 
+//  exitPage.value = "https://proto-cra.github.io/gst-hst-business/exit-intent.html", 
 //  exitPage.dataset.exitByUrl = "false", 
-//  exitPage.dataset.modLinkFile = "https://cra-design.github.io/gst-hst-business/templates/data/link_excludes.json", 
+//  exitPage.dataset.modLinkFile = "https://proto-cra.github.io/gst-hst-business/templates/data/link_excludes.json", 
 //  relExternalLnk.value = "false", 
 //  relExternalLnk.dataset.origin = "https://www.canada.ca", 
 
 let exitPage = document.getElementById("exitpage");
 let relExternalLnk = document.getElementById("relextlnk");
-let inlineStyleText1, inlineStyleText2, 
-    visitedLinkStyle = document.createElement("style"), 
-    linkExcludes = [], 
+let inlineStyleText1, inlineStyleText2,
+    visitedLinkStyle = document.createElement("style"),
+    linkExcludes = [],
     adjustLinks = function adjustLinks(elm, hrefSelector, actionSelector, formActionSelector, destStartPath) {
         let linkExcludeIndex = function linkExcludeIndex(testURI) {
-                return linkExcludes.findIndex(function findlink(linkArr) {
+            return linkExcludes.findIndex(function findlink(linkArr) {
                 if ("origin" in linkArr) {
                     return linkArr.origin.toLowerCase() === testURI.toLowerCase();
                 }
             }, testURI);
-        }, 
-        adjustHref = function adjustHref(el, destStartPath) {
-            let adjustedURI = el, 
-                replaceChar = ["?", "#", "&"];
+        },
+            adjustHref = function adjustHref(el, destStartPath) {
+                let adjustedURI = el,
+                    replaceChar = ["?", "#", "&"];
 
-            if (destStartPath !== "") {
-                adjustedURI = new URL(adjustedURI, destStartPath).href;
-            }
-            replaceChar.forEach(function entityReplace (arrEl) {
-                adjustedURI = adjustedURI.replace(arrEl, encodeURIComponent(arrEl));
-            }, adjustedURI);
-            return adjustedURI;
-        }, 
-        updateFormSubmit = function updateFormSubmit(formEl, formAttr, exitPageURI) {
-            let hiddenInEl;
+                if (destStartPath !== "") {
+                    adjustedURI = new URL(adjustedURI, destStartPath).href;
+                }
+                replaceChar.forEach(function entityReplace(arrEl) {
+                    adjustedURI = adjustedURI.replace(arrEl, encodeURIComponent(arrEl));
+                }, adjustedURI);
+                return adjustedURI;
+            },
+            updateFormSubmit = function updateFormSubmit(formEl, formAttr, exitPageURI) {
+                let hiddenInEl;
 
-            hiddenInEl = document.createElement("input");
-            hiddenInEl.value = adjustHref(formEl[formAttr], destStartPath);
-            hiddenInEl.name = "uri";
-            hiddenInEl.type = "hidden";
-            formEl.append(hiddenInEl);
-            formEl[formAttr] = exitPageURI;
-        };
+                hiddenInEl = document.createElement("input");
+                hiddenInEl.value = adjustHref(formEl[formAttr], destStartPath);
+                hiddenInEl.name = "uri";
+                hiddenInEl.type = "hidden";
+                formEl.append(hiddenInEl);
+                formEl[formAttr] = exitPageURI;
+            };
 
         if (exitPage !== null) {
             if (hrefSelector !== "") {
                 $(elm).find(hrefSelector).each(function updateExitHref() {
                     const maxURILength = 2048;
-                    let urlObj, queryHash, 
-                        pagetitle = encodeURIComponent(this.innerText), 
-                        exitPageURI = exitPage.value, 
-                        destURI = adjustHref(this.href, destStartPath), 
-                        currentURI = this.protocol + "//" + this.hostname + this.pathname, 
+                    let urlObj, queryHash,
+                        pagetitle = encodeURIComponent(this.innerText),
+                        exitPageURI = exitPage.value,
+                        destURI = adjustHref(this.href, destStartPath),
+                        currentURI = this.protocol + "//" + this.hostname + this.pathname,
                         lnkExclIdx = linkExcludeIndex(currentURI);
 
                     if (lnkExclIdx === -1) {
@@ -74,7 +74,7 @@ let inlineStyleText1, inlineStyleText2,
                                     if (destURI.length > 0) {
                                         exitPageURI = exitPageURI + "?uri=" + destURI;
                                     }
-                                    // falls through
+                                // falls through
                                 case (pagetitle.length > 0 && exitPageURI + pagetitle.length + 11 <= maxURILength):
                                     if (pagetitle.length > 0) {
                                         exitPageURI = exitPageURI + "&pagetitle=" + pagetitle;
@@ -100,9 +100,9 @@ let inlineStyleText1, inlineStyleText2,
 
             if (actionSelector !== "") {
                 $(elm).find(actionSelector).each(function updateExitAction() {
-                    let queryHash, 
-                        exitPageURI = exitPage.value, 
-                        currentURI = this.protocol + "//" + this.hostname + this.pathname, 
+                    let queryHash,
+                        exitPageURI = exitPage.value,
+                        currentURI = this.protocol + "//" + this.hostname + this.pathname,
                         lnkExclIdx = linkExcludeIndex(currentURI);
 
                     this.method = "GET";
@@ -117,9 +117,9 @@ let inlineStyleText1, inlineStyleText2,
 
             if (formActionSelector !== "") {
                 $(elm).find(formActionSelector).each(function updateExitForm() {
-                    let queryHash, 
-                        exitPageURI = exitPage.value, 
-                        currentURI = this.protocol + "//" + this.hostname + this.pathname, 
+                    let queryHash,
+                        exitPageURI = exitPage.value,
+                        currentURI = this.protocol + "//" + this.hostname + this.pathname,
                         lnkExclIdx = linkExcludeIndex(currentURI);
 
                     if (lnkExclIdx === -1) {
@@ -131,17 +131,17 @@ let inlineStyleText1, inlineStyleText2,
                 });
             }
         }
-    }, 
+    },
     getDomain = function (url) {
-        let pattern = new RegExp("^(https?:\/\/[^\/]+\/[^\/]*\/?)"), 
+        let pattern = new RegExp("^(https?:\/\/[^\/]+\/[^\/]*\/?)"),
             domains = pattern.exec(url);
 
         if (domains !== null) {
             return domains[0];
         }
         return "";
-    }, 
-    rootDomain = getDomain(window.location.origin + window.location.pathname), 
+    },
+    rootDomain = getDomain(window.location.origin + window.location.pathname),
     defaultadjustLinks = function defaultadjustLinks(elm, isAjaxed, relExternalLnk) {
         adjustLinks(elm, "a[href^='http']a:not([href^='" + rootDomain + "'], [data-exit='false'], .wb-exitscript), area[href^='http']area:not([href^='" + rootDomain + "'], [data-exit='false'], .wb-exitscript)", "form[action^='http']form:not([action^='" + rootDomain + "'], [data-exit='false'], .wb-exitscript)", "input[formaction^='http']input:not([formaction^='" + rootDomain + "'], [data-exit='false'], .wb-exitscript), button[formaction^='http']button:not([formaction^='" + rootDomain + "'], [formaction^='/'], [data-exit='false'], .wb-exitscript)", "");
         if ((relExternalLnk && relExternalLnk.dataset.origin !== "") && (relExternalLnk.value.toLowerCase() === "true" || isAjaxed === true)) {
@@ -151,7 +151,7 @@ let inlineStyleText1, inlineStyleText2,
 
 //load link exclude JSON file
 if ("modLinkFile" in exitPage.dataset && exitPage.dataset.modLinkFile !== "") {
-    $.getJSON(exitPage.dataset.modLinkFile, function(data) {
+    $.getJSON(exitPage.dataset.modLinkFile, function (data) {
         linkExcludes = data;
     });
 }
@@ -185,12 +185,12 @@ $(".gcweb-menu").on("wb-ready.gcweb-menu", function () {
 $("[data-ajax-after], [data-ajax-append], [data-ajax-before], [data-ajax-prepend], [data-ajax-replace]").on("wb-contentupdated", function () {
     if (relExternalLnk && relExternalLnk.dataset.origin !== "") {
         $(this).find("[icon^='/'], [poster^='/'], [src^='/'], [srcset^='/'], [data^='/']").each(function updateAjaxLinks() {
-            let elm = this, 
+            let elm = this,
                 attrType = ["data", "icon", "poster", "src", "srcset"];
 
-            attrType.forEach(function checkAttr (attrItem) {
+            attrType.forEach(function checkAttr(attrItem) {
                 let attrValue;
-    
+
                 if (elm.hasAttribute(attrItem) === true) {
                     attrValue = elm.getAttribute(attrItem);
                     if (attrValue.startsWith("/") === true) {

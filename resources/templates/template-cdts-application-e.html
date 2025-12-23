@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html class="no-js" dir="ltr" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
 <head prefix="og: http://ogp.me/ns#">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -20,17 +21,18 @@
     <!-- Load closure template scripts -->
     <!--<script src="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v5_0_2/cdts/compiled/soyutils.js"></script>-->
     <script src="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v5_0_2/cdts/compiled/wet-en.js"></script>
-    <link rel="stylesheet" href="https://cra-design.github.io/cra-portal/templates/css/theme.css">
-    <link rel="stylesheet" href="https://cra-design.github.io/cra-portal/templates/css/wet-boew.css">
+    <link rel="stylesheet" href="https://proto-cra.github.io/cra-portal/templates/css/theme.css">
+    <link rel="stylesheet" href="https://proto-cra.github.io/cra-portal/templates/css/wet-boew.css">
     <!-- CustomCSSStart -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
     <link rel="stylesheet" href="https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2025-12-mille-iles.css">
     <!-- CustomCSSEnd -->
     <!-- START of Github only testing banner CSS -->
-    <link rel="stylesheet" href="https://cra-design.github.io/cra-portal/templates/css/testing-banner.css">
+    <link rel="stylesheet" href="https://proto-cra.github.io/cra-portal/templates/css/testing-banner.css">
     <!-- END of Github only testing banner CSS -->
     <link href="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v5_0_2/wet-boew/assets/favicon.ico" rel="shortcut icon">
 </head>
+
 <body vocab="http://schema.org/" typeof="WebPage" resource="#wb-webpage">
     <noscript>
         <!-- Write closure fall-back static file -->
@@ -39,11 +41,11 @@
     </noscript>
     <!-- START of Github only template section -->
     <data id="devoptions" data-loc-storage="gitCRATemplateDevOptions" value="true"></data>
-    <data id="exitpage" data-exit-by-url="false" data-mod-link-file="https://cra-design.github.io/core-prototype/source/data/exclude-redirect-links.json" value="https://cra-design.github.io/core-prototype/source/exit-intent-e.html"></data>
+    <data id="exitpage" data-exit-by-url="false" data-mod-link-file="https://proto-cra.github.io/core-prototype/source/data/exclude-redirect-links.json" value="https://proto-cra.github.io/core-prototype/source/exit-intent-e.html"></data>
     <data id="relextlnk" data-origin="https://www.canada.ca" value="false"></data>
     <data id="notedlinks" value="[{&quot;sourcelink&quot;: &quot;http://www.canada.ca/&quot;, &quot;sourcetitle&quot;: &quot;Canada Revenue Agency&quot;}]"></data>
     <data id="pageKeywords" value=""></data>
-    <div id="site-banner-inc" class="wb-disable-allow" data-ajax-replace="https://cra-design.github.io/core-prototype/source/includes/site-banner-e.inc"></div>
+    <div id="site-banner-inc" class="wb-disable-allow" data-ajax-replace="https://proto-cra.github.io/core-prototype/source/includes/site-banner-e.inc"></div>
     <!-- END of Github only template section -->
     <script>
         document.write(wet.builder.refTop({
@@ -59,15 +61,15 @@
     <script>
         var defTop = document.getElementById("def-top");
         defTop.outerHTML = wet.builder.appTop({
-            "topSecMenu": true, 
+            "topSecMenu": true,
             "appName": [{
                 "text": "Canada Revenue Agency",
                 "href": "#"
-            }], 
+            }],
             "signOut": [{
                 "href": "#"
-            }], 
-            
+            }],
+
             lngLinks: [{
                 lang: "fr",
                 href: "#",
@@ -89,116 +91,116 @@
 
                 <div>
                     <h1 id="wb-cont" property="name">page title</h1>
+                    <section>
+                        <h2>Heading&#32;2&#32;(<code>h2</code>)</h2>
+                        <section>
+                            <h3>Heading&#32;3&#32;(<code>h3</code>)</h3>
+                            <section>
+                                <h4>Heading&#32;4&#32;(<code>h4</code>)</h4>
                                 <section>
-                                    <h2>Heading&#32;2&#32;(<code>h2</code>)</h2>
+                                    <h5>Heading&#32;5&#32;(<code>h5</code>)</h5>
                                     <section>
-                                        <h3>Heading&#32;3&#32;(<code>h3</code>)</h3>
-                                        <section>
-                                            <h4>Heading&#32;4&#32;(<code>h4</code>)</h4>
-                                            <section>
-                                                <h5>Heading&#32;5&#32;(<code>h5</code>)</h5>
-                                                <section>
-                                                    <h6>Heading&#32;6&#32;(<code>h6</code>)</h6>
-                                                    <p>Paragraph - default appearance</p>
-                                                </section>
-                                            </section>
-                                        </section>
+                                        <h6>Heading&#32;6&#32;(<code>h6</code>)</h6>
+                                        <p>Paragraph - default appearance</p>
                                     </section>
                                 </section>
-                                <p><a href="#">Link</a></p>
-                                <ul>
-                                    <li>
-                                        unordered list&#32;(<code>ul</code>) - level&#32;1
-                                        <ul>
-                                            <li>
-                                                unordered list&#32;(<code>ul</code>) - level&#32;2
-                                                <ul>
-                                                    <li>unordered list&#32;(<code>ul</code>) - level&#32;3</li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                                <ol>
-                                    <li>ordered list&#32;(<code>ol</code>) - level&#32;1</li>
-                                    <li>
-                                        ordered list&#32;(<code>ol</code>) - level&#32;1
-                                        <ol>
-                                            <li>ordered list&#32;(<code>ol</code>) - level&#32;2</li>
-                                            <li>
-                                                ordered list&#32;(<code>ol</code>) - level&#32;2
-                                                <ol>
-                                                    <li>ordered list&#32;(<code>ol</code>) - level&#32;3</li>
-                                                    <li>ordered list&#32;(<code>ol</code>) - level&#32;3</li>
-                                                </ol>
-                                            </li>
-                                        </ol>
-                                    </li>
-                                </ol>
-                                <table class="table table-striped">
-                                    <caption>Table caption</caption>
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Table header&#32;(<code>th</code>)</th>
-                                            <th scope="col">Table header&#32;(<code>th</code>)</th>
-                                            <th scope="col">Table header&#32;(<code>th</code>)</th>
-                                            <th scope="col">Table header&#32;(<code>th</code>)</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Table data&#32;(<code>td</code>)</td>
-                                            <td>Table data&#32;(<code>td</code>)</td>
-                                            <td>Table data&#32;(<code>td</code>)</td>
-                                            <td>Table data&#32;(<code>td</code>)</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Table data&#32;(<code>td</code>)</td>
-                                            <td>Table data&#32;(<code>td</code>)</td>
-                                            <td>Table data&#32;(<code>td</code>)</td>
-                                            <td>Table data&#32;(<code>td</code>)</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Table data&#32;(<code>td</code>)</td>
-                                            <td>Table data&#32;(<code>td</code>)</td>
-                                            <td>Table data&#32;(<code>td</code>)</td>
-                                            <td>Table data&#32;(<code>td</code>)</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <form method="post" action="#" class="form-horizontal">
-                                    <div class="form-group">
-                                        <label for="data1" class="col-sm-3 control-label">Form&#32;<code>input</code></label>
-                                        <div class="col-sm-9">
-                                            <input type="text" id="data1" name="data1" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="data2" class="col-sm-3 control-label">Form&#32;<code>textarea</code></label>
-                                        <div class="col-sm-9">
-                                            <textarea id="data2" rows="3" cols="15" name="data2" class="form-control"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="data4" class="col-sm-3 control-label">Form&#32;<code>select</code></label>
-                                        <div class="col-sm-9">
-                                            <select name="data4" id="data4" class="form-control">
-                                                <option value="1">Option&#32;1</option>
-                                                <option value="2">Option&#32;2</option>
-                                                <option value="3">Option&#32;3</option>
-                                                <option value="4">Option&#32;4</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-3 col-sm-9">
-                                            <button type="submit" class="btn btn-primary">Submit</button>
-                                        </div>
-                                    </div>
-                                </form>
-                                <blockquote>
-                                    <p>"<code>blockquote</code>"</p>
-                                </blockquote>
+                            </section>
+                        </section>
+                    </section>
+                    <p><a href="#">Link</a></p>
+                    <ul>
+                        <li>
+                            unordered list&#32;(<code>ul</code>) - level&#32;1
+                            <ul>
+                                <li>
+                                    unordered list&#32;(<code>ul</code>) - level&#32;2
+                                    <ul>
+                                        <li>unordered list&#32;(<code>ul</code>) - level&#32;3</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ol>
+                        <li>ordered list&#32;(<code>ol</code>) - level&#32;1</li>
+                        <li>
+                            ordered list&#32;(<code>ol</code>) - level&#32;1
+                            <ol>
+                                <li>ordered list&#32;(<code>ol</code>) - level&#32;2</li>
+                                <li>
+                                    ordered list&#32;(<code>ol</code>) - level&#32;2
+                                    <ol>
+                                        <li>ordered list&#32;(<code>ol</code>) - level&#32;3</li>
+                                        <li>ordered list&#32;(<code>ol</code>) - level&#32;3</li>
+                                    </ol>
+                                </li>
+                            </ol>
+                        </li>
+                    </ol>
+                    <table class="table table-striped">
+                        <caption>Table caption</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Table header&#32;(<code>th</code>)</th>
+                                <th scope="col">Table header&#32;(<code>th</code>)</th>
+                                <th scope="col">Table header&#32;(<code>th</code>)</th>
+                                <th scope="col">Table header&#32;(<code>th</code>)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Table data&#32;(<code>td</code>)</td>
+                                <td>Table data&#32;(<code>td</code>)</td>
+                                <td>Table data&#32;(<code>td</code>)</td>
+                                <td>Table data&#32;(<code>td</code>)</td>
+                            </tr>
+                            <tr>
+                                <td>Table data&#32;(<code>td</code>)</td>
+                                <td>Table data&#32;(<code>td</code>)</td>
+                                <td>Table data&#32;(<code>td</code>)</td>
+                                <td>Table data&#32;(<code>td</code>)</td>
+                            </tr>
+                            <tr>
+                                <td>Table data&#32;(<code>td</code>)</td>
+                                <td>Table data&#32;(<code>td</code>)</td>
+                                <td>Table data&#32;(<code>td</code>)</td>
+                                <td>Table data&#32;(<code>td</code>)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <form method="post" action="#" class="form-horizontal">
+                        <div class="form-group">
+                            <label for="data1" class="col-sm-3 control-label">Form&#32;<code>input</code></label>
+                            <div class="col-sm-9">
+                                <input type="text" id="data1" name="data1" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="data2" class="col-sm-3 control-label">Form&#32;<code>textarea</code></label>
+                            <div class="col-sm-9">
+                                <textarea id="data2" rows="3" cols="15" name="data2" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="data4" class="col-sm-3 control-label">Form&#32;<code>select</code></label>
+                            <div class="col-sm-9">
+                                <select name="data4" id="data4" class="form-control">
+                                    <option value="1">Option&#32;1</option>
+                                    <option value="2">Option&#32;2</option>
+                                    <option value="3">Option&#32;3</option>
+                                    <option value="4">Option&#32;4</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-3 col-sm-9">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                    <blockquote>
+                        <p>"<code>blockquote</code>"</p>
+                    </blockquote>
                 </div>
                 <dl>
                     <dt>Screen ID:&nbsp;</dt>
@@ -255,8 +257,8 @@
     <script>
         var defFooter = document.getElementById("def-footer");
         defFooter.outerHTML = wet.builder.appFooter({
-            "hideFooterCorporate": true, 
-            "showFeatures": false, 
+            "hideFooterCorporate": true,
+            "showFeatures": false,
             "footerSections": {
                 "links": [{
                     "href": "https://www.canada.ca/en/revenue-agency/services/e-services/e-services-businesses/business-account/about-business-account.html",
@@ -296,9 +298,10 @@
     <script src="https://www.canada.ca/etc/designs/canada/wet-boew/js/theme.min.js"></script>
     <script src="https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2025-12-mille-iles.js"></script>
     <!-- START of github only scripts --->
-    <script src="https://cra-design.github.io/gst-hst-business/templates/scripts/external-link-detour.js"></script>
-    <script src="https://cra-design.github.io/gst-hst-business/templates/scripts/git-dev-options-e.js"></script>
-    <script src="https://cra-design.github.io/core-prototype/resources/tools/tinymce/tinymce.min.js"></script>
+    <script src="https://proto-cra.github.io/gst-hst-business/templates/scripts/external-link-detour.js"></script>
+    <script src="https://proto-cra.github.io/gst-hst-business/templates/scripts/git-dev-options-e.js"></script>
+    <script src="https://proto-cra.github.io/core-prototype/resources/tools/tinymce/tinymce.min.js"></script>
     <!-- END of github only scripts --->
-    </body>
+</body>
+
 </html>

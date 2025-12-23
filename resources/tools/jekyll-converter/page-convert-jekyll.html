@@ -47,21 +47,21 @@ noFooterMain: true
                     <option value="fluid">fluid</option>
                     <option value="no-container">no-container</option>
                     <option value="without-h1">without-h1</option>
-<!--
+                    <!--
                     <option value="application">application</option>
 -->
                 </select>
             </div>
             <fieldset class="gc-chckbxrdio form-inline mrgn-lft-md mrgn-bttm-lg">
                 <legend>Front Matter code:</legend>
-                    <div class="radio label-inline">
-                        <input id="json" type="radio" name="frontmatter" value="json">
-                        <label for="json">JSON</label>
-                    </div>
-                    <div class="radio label-inline">
-                        <input id="yaml" type="radio" name="frontmatter" value="yaml" checked="checked">
-                        <label for="yaml">YAML</label>
-                    </div>
+                <div class="radio label-inline">
+                    <input id="json" type="radio" name="frontmatter" value="json">
+                    <label for="json">JSON</label>
+                </div>
+                <div class="radio label-inline">
+                    <input id="yaml" type="radio" name="frontmatter" value="yaml" checked="checked">
+                    <label for="yaml">YAML</label>
+                </div>
             </fieldset>
             <div class="col-lg-12">
                 <label class="required control-label mrgn-lft-sm h5 mrgn-tp-sm" for="uri">URL <strong class="required">(required)</strong></label>
@@ -144,7 +144,7 @@ noFooterMain: true
             <textarea id="redirectfiletext" name="scripts" cols="132" autofocus="autofocus" class="form-control input-md mrgn-bttm-md full-width wb-clipboard" aria-labelledby="contentlabel" aria-multiline="true" rows="5"></textarea>
             <!-- END Result textarea -->
         </div>
-<!--
+        <!--
         <button id="cleartextbtn" class="btn btn-default mrgn-bttm-md mrgn-lft-0"><strong>Clear text</strong></button>
 -->
     </fieldset>
@@ -152,21 +152,21 @@ noFooterMain: true
 <script type="module">
     import * as prettier from "https://unpkg.com/prettier@3.6.2/standalone.mjs";
     import * as prettierPluginEstree from "https://unpkg.com/prettier@3.6.2/plugins/estree.mjs";
-    import * as prettierPluginHtml from "https://unpkg.com/prettier@3.6.2/plugins/html.mjs";    
+    import * as prettierPluginHtml from "https://unpkg.com/prettier@3.6.2/plugins/html.mjs";
     import outputPage from "./scripts/page-convert-jekyll.js";
 
     "use strict";
 
-    let fileName = "", 
-        resultArea = document.getElementById("sourcetext"), 
+    let fileName = "",
+        resultArea = document.getElementById("sourcetext"),
         getQueryEl = function getQueryEl(field) {
             // Get a querystring value
             const params = new Proxy(new URLSearchParams(window.location.search), {
-                get: (searchParams, prop) => searchParams.get(prop), 
+                get: (searchParams, prop) => searchParams.get(prop),
             });
 
             return params[field];
-        }, 
+        },
         getFilenameFromUrl = function getFilenameFromUrl(uri) {
             const lastSlashIndex = uri.lastIndexOf("/");
 
@@ -174,14 +174,14 @@ noFooterMain: true
                 return uri.substring(lastSlashIndex + 1);
             }
             return "";
-        }, 
+        },
         page_url = getQueryEl("uri");
 
     // submit button
     document.getElementById("submitbutton").addEventListener("click", async function (e) {
-        let htmlMain, targetURL, frontMatterType, 
-            pageData = "", 
-            githubPath = "", 
+        let htmlMain, targetURL, frontMatterType,
+            pageData = "",
+            githubPath = "",
             convertObj = "";
 
         fileName = "";
@@ -195,24 +195,24 @@ noFooterMain: true
             pageData = convertObj.pagedata();
             if (document.getElementById("usePrettier").checked === true) {
                 htmlMain = await prettier.format(pageData.cssCode + pageData.htmlCode, {
-                    "parser": "html", 
-                    "plugins": [prettierPluginEstree, prettierPluginHtml], 
-                    "arrowParens": "always", 
-                    "bracketSameLine": false, 
-                    "bracketSpacing": false, 
-                    "embeddedLanguageFormatting": "auto", 
-                    "endOfLine": "crlf", 
-                    "htmlWhitespaceSensitivity": "css", 
-                    "jsxSingleQuote": false, 
-                    "objectWrap": "collapse", 
-                    "printWidth": Infinity, 
-                    "ProseWrap": "never", 
-                    "quoteProps": "consistent", 
-                    "singleAttributePerLine": false, 
-                    "singleQuote": false, 
-                    "tabWidth": 4, 
-                    "trailingComma": "none", 
-                    "useTabs": false, 
+                    "parser": "html",
+                    "plugins": [prettierPluginEstree, prettierPluginHtml],
+                    "arrowParens": "always",
+                    "bracketSameLine": false,
+                    "bracketSpacing": false,
+                    "embeddedLanguageFormatting": "auto",
+                    "endOfLine": "crlf",
+                    "htmlWhitespaceSensitivity": "css",
+                    "jsxSingleQuote": false,
+                    "objectWrap": "collapse",
+                    "printWidth": Infinity,
+                    "ProseWrap": "never",
+                    "quoteProps": "consistent",
+                    "singleAttributePerLine": false,
+                    "singleQuote": false,
+                    "tabWidth": 4,
+                    "trailingComma": "none",
+                    "useTabs": false,
                     "vueIndentScriptAndStyle": true
                 });
             } else {
@@ -260,14 +260,14 @@ noFooterMain: true
 
     // Initalize function once page finishes loading
     document.addEventListener("DOMContentLoaded", async function () {
-        let githubPath_qrystr = getQueryEl("github_path"), 
-            page_layout = getQueryEl("layout"), 
-            front_Matter = getQueryEl("frontmatter"), 
-            noted_page_Arr = getQueryEl("noted_page_array"), 
-            evt = document.createEvent("MouseEvents"), 
-            cb = document.getElementById("submitbutton"), 
+        let githubPath_qrystr = getQueryEl("github_path"),
+            page_layout = getQueryEl("layout"),
+            front_Matter = getQueryEl("frontmatter"),
+            noted_page_Arr = getQueryEl("noted_page_array"),
+            evt = document.createEvent("MouseEvents"),
+            cb = document.getElementById("submitbutton"),
             setCheckbox = function setCheckbox(qryFldName, inputName) {
-                let boolValue, 
+                let boolValue,
                     querystringVal = getQueryEl(qryFldName);
 
                 if (querystringVal !== null && querystringVal !== "") {
@@ -280,7 +280,7 @@ noFooterMain: true
                 }
             };
 
-        document.getElementById("jekyllCnvrtBmrklt").href = encodeURI("javascript:(function(){location.href=\"https://cra-design.github.io/core-prototype/resources/tools/jekyll-converter/page-convert-jekyll.html?uri=\"+encodeURIComponent(location.href);})();");
+        document.getElementById("jekyllCnvrtBmrklt").href = encodeURI("javascript:(function(){location.href=\"https://proto-cra.github.io/core-prototype/resources/tools/jekyll-converter/page-convert-jekyll.html?uri=\"+encodeURIComponent(location.href);})();");
 
         if (page_layout !== null && page_layout !== "") {
             document.getElementById("layout").value = decodeURIComponent(page_layout);
@@ -316,10 +316,10 @@ noFooterMain: true
 
     document.getElementById("githubsave").addEventListener("click", function (e) {
         let saveTextAsFile = function saveTextAsFile() {
-            let textToWrite = document.getElementById("sourcetext").value, 
+            let textToWrite = document.getElementById("sourcetext").value,
                 textFileAsBlob = new Blob([textToWrite], {
                     type: "text/plain"
-                }), 
+                }),
                 downloadLink = document.createElement("a");
 
             downloadLink.download = fileName;
@@ -336,10 +336,10 @@ noFooterMain: true
                 document.body.appendChild(downloadLink);
             }
             downloadLink.click();
-        }, 
-        destroyClickedElement = function destroyClickedElement(event) {
-            document.body.removeChild(event.target);
-        };
+        },
+            destroyClickedElement = function destroyClickedElement(event) {
+                document.body.removeChild(event.target);
+            };
 
         if (fileName !== "" && resultArea.value !== "") {
             saveTextAsFile();
@@ -348,10 +348,10 @@ noFooterMain: true
         e.preventDefault();
     });
 
-/*
-    // clear text button
-    document.getElementById("cleartextbtn").addEventListener("click", function () {
-        document.getElementById("sourcetext").value = "";
-    });
-*/
+    /*
+        // clear text button
+        document.getElementById("cleartextbtn").addEventListener("click", function () {
+            document.getElementById("sourcetext").value = "";
+        });
+    */
 </script>
