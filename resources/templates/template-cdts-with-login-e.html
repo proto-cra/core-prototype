@@ -152,6 +152,18 @@
             </nav>
         </header>
     </div>
+    <!-- Write closure template -->
+    <script>
+        var defTop = document.getElementById("def-top");
+        defTop.outerHTML = wet.builder.top({
+            auth: [{
+                type: "contextual",
+                label: "sign in",
+                labelExtended: "CRA sign in",
+                link: "https://www.canada.ca/en/revenue-agency/services/e-services/cra-login-services.html"
+            }]
+        });
+    </script>
     <div class="container">
         <div class="row">
             <main property="mainContentOfPage" resource="#wb-main" typeof="WebPageElement" class="container">
