@@ -148,9 +148,9 @@ let inlineStyleText1, inlineStyleText2,
     }, 
     rootDomain = getDomain(window.location.origin + window.location.pathname), 
     defaultadjustLinks = function defaultadjustLinks(elm, isAjaxed, relExternalLnk) {
-        adjustLinks(elm, "a[href^='http']a:not([href^='" + rootDomain + "'], [data-exit='false'], .wb-exitscript), area[href^='http']area:not([href^='" + rootDomain + "'], [data-exit='false'], .wb-exitscript)", "form[action^='http']form:not([action^='" + rootDomain + "'], [data-exit='false'], .wb-exitscript)", "input[formaction^='http']input:not([formaction^='" + rootDomain + "'], [data-exit='false'], .wb-exitscript), button[formaction^='http']button:not([formaction^='" + rootDomain + "'], [formaction^='/'], [data-exit='false'], .wb-exitscript)", "");
+        adjustLinks(elm, "a[href^='http']:not([href^='" + rootDomain + "'], [data-exit='false'], .wb-exitscript), area[href^='http']:not([href^='" + rootDomain + "'], [data-exit='false'], .wb-exitscript)", "form[action^='http']:not([action^='" + rootDomain + "'], [data-exit='false'], .wb-exitscript)", "input[formaction^='http']:not([formaction^='" + rootDomain + "'], [data-exit='false'], .wb-exitscript), button[formaction^='http']:not([formaction^='" + rootDomain + "'], [formaction^='/'], [data-exit='false'], .wb-exitscript)", "");
         if ((relExternalLnk && relExternalLnk.dataset.origin !== "") && (relExternalLnk.value.toLowerCase() === "true" || isAjaxed === true)) {
-            adjustLinks(elm, "a[href^='/']a:not([data-exit='false'], .wb-exitscript), area[href^='/']area:not([data-exit='false'], .wb-exitscript)", "form[action^='/']form:not([data-exit='false'], .wb-exitscript)", "input[formaction^='/']input:not([data-exit='false'], .wb-exitscript), button[formaction^='/']button:not([data-exit='false'], .wb-exitscript)", relExternalLnk.dataset.origin);
+            adjustLinks(elm, "a[href^='/']:not([data-exit='false'], .wb-exitscript), area[href^='/']:not([data-exit='false'], .wb-exitscript)", "form[action^='/']:not([data-exit='false'], .wb-exitscript)", "input[formaction^='/']:not([data-exit='false'], .wb-exitscript), button[formaction^='/']:not([data-exit='false'], .wb-exitscript)", relExternalLnk.dataset.origin);
         }
     };
 
@@ -180,9 +180,9 @@ $(document).on("wb-ready.wb", function () {
 
 // changes all GCM Menu external site links and forms to go to destination link
 $(".gcweb-menu").on("wb-ready.gcweb-menu", function () {
-    adjustLinks(this, ".gcweb-menu a[href^='http']a:not([href^='" + rootDomain + "'], [data-exit='false'], .wb-exitscript), .gcweb-menu area[href^='http']area:not([href^='" + rootDomain + "'], [data-exit='false'], .wb-exitscript)", ".gcweb-menu form[action^='http']form:not([action^='" + rootDomain + "'], [data-exit='false'], .wb-exitscript)", ".gcweb-menu input[formaction^='http']input:not([formaction^='" + rootDomain + "'], [data-exit='false'], .wb-exitscript), .gcweb-menu button[formaction^='http']button:not([formaction^='" + rootDomain + "'], [data-exit='false'], .wb-exitscript)", "");
+    adjustLinks(this, ".gcweb-menu a[href^='http']:not([href^='" + rootDomain + "'], [data-exit='false'], .wb-exitscript), .gcweb-menu area[href^='http']:not([href^='" + rootDomain + "'], [data-exit='false'], .wb-exitscript)", ".gcweb-menu form[action^='http']:not([action^='" + rootDomain + "'], [data-exit='false'], .wb-exitscript)", ".gcweb-menu input[formaction^='http']:not([formaction^='" + rootDomain + "'], [data-exit='false'], .wb-exitscript), .gcweb-menu button[formaction^='http']:not([formaction^='" + rootDomain + "'], [data-exit='false'], .wb-exitscript)", "");
     if (relExternalLnk && relExternalLnk.value.toLowerCase() === "true" && relExternalLnk.dataset.origin !== "") {
-        adjustLinks(this, ".gcweb-menu a[href^='/']a:not([data-exit='false'], .wb-exitscript), .gcweb-menu area[href^='/']area:not([data-exit='false'], .wb-exitscript)", ".gcweb-menu form[action^='/']form:not([data-exit='false'], .wb-exitscript)", ".gcweb-menu input[formaction^='/']input:not([data-exit='false'], .wb-exitscript), .gcweb-menu button[formaction^='/']button:not([data-exit='false'], .wb-exitscript)", relExternalLnk.dataset.origin);
+        adjustLinks(this, ".gcweb-menu a[href^='/']:not([data-exit='false'], .wb-exitscript), .gcweb-menu area[href^='/']:not([data-exit='false'], .wb-exitscript)", ".gcweb-menu form[action^='/']:not([data-exit='false'], .wb-exitscript)", ".gcweb-menu input[formaction^='/']:not([data-exit='false'], .wb-exitscript), .gcweb-menu button[formaction^='/']:not([data-exit='false'], .wb-exitscript)", relExternalLnk.dataset.origin);
     }
 });
 
