@@ -19,24 +19,21 @@
     <meta name="dcterms.language" title="ISO639-2/T" content="eng">
     <meta name="dcterms.spatial" content="Canada">
     <!-- Meta data-->
-    <link rel="stylesheet" href="https://www.canada.ca/etc/designs/canada/wet-boew/css/theme.min.css">
+    <link rel="stylesheet" href="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v5_0_5/cdts/cdts-styles.css">
     <link rel="stylesheet" href="https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2025-12-mille-iles.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
     <!-- START of GitHub only testing banner CSS -->
     <link rel="stylesheet" href="https://proto-cra.github.io/core-prototype/source/css/testing-banner.css">
     <!-- END of GitHub only testing banner CSS -->
-    <link href="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v5_0_4/wet-boew/assets/favicon.ico" rel="shortcut icon">
 </head>
-
-<body vocab="https://schema.org/" typeof="WebPage" resource="#wb-webpage">
+<body>
     <noscript>
         <!-- Write closure fall-back static file -->
         <!-- /ROOT/etc/designs/canada/cdts/gcweb/v5_0_5/cdts/static/refTop.html -->
         <!--#include virtual="/app/cls/WET/gcweb/v5_0_5/cdts/static/refTop.html" -->
     </noscript>
     <!-- Load closure template scripts -->
-    <!--<script src="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v5_0_5/cdts/compiled/soyutils.js"></script>-->
-    <script src="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v5_0_4/cdts/compiled/wet-en.js"></script>
+    <script src="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v5_0_5/cdts/compiled/wet-en.js"></script>
     <!-- START of GitHub only template section -->
     <data id="devoptions" data-loc-storage="gitCRATemplateDevOptions" value="true"></data>
     <data id="exitpage" data-exit-by-url="false" data-mod-link-file="https://proto-cra.github.io/core-prototype/source/data/exclude-redirect-links.json" value="https://proto-cra.github.io/core-prototype/source/exit-intent-e.html"></data>
@@ -204,7 +201,6 @@
                 <div id="def-preFooter">
                     <!-- Write closure fall-back static file -->
                     <!-- /ROOT/etc/designs/canada/cdts/gcweb/v5_0_5/cdts/static/preFooter-en.html -->
-                    <!--#include virtual="/app/cls/WET/gcweb/v5_0_5/cdts/static/preFooter-en.html" -->
                 </div>
             </main>
         </div>
@@ -213,6 +209,7 @@
     <script>
         var defPreFooter = document.getElementById("def-preFooter");
         defPreFooter.outerHTML = wet.builder.preFooter({
+            showShare: false, 
             dateModified: "YYYY-MM-DD", 
             showFeedback: {
                 enabled: true, 
@@ -224,7 +221,6 @@
     <div id="def-footer">
         <!-- Write closure fall-back static file -->
         <!-- /ROOT/app/cls/WET/gcweb/v5_0_5/cdts/static/footer-en.html -->
-        <!--#include virtual="/app/cls/WET/gcweb/v5_0_5/cdts/static/footer-en.html" -->
     </div>
     <!-- Write closure template -->
     <script>
@@ -259,5 +255,4 @@
     <script defer="defer" src="https://proto-cra.github.io/core-prototype/resources/tools/tinymce/tinymce.min.js"></script>
     <!-- END of GitHub only scripts --->
 </body>
-
 </html>
