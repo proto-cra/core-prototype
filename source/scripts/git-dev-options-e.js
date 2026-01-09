@@ -44,15 +44,15 @@ let notedLinksArr, pageOrigin,
         }
     };
 
-document.addEventListener("DOMContentLoaded", function initDevOpts() {
+document.addEventListener("readystatechange", function initDevOpts(event) {
     let devOptionsLocStore = null, 
         editStartContent = "";
 
-    if (devOptions !== null && "locStorage" in devOptions.dataset && devOptions.dataset.locStorage !== "") {
+    if (event.target.readyState === "complete" && (devOptions !== null && "locStorage" in devOptions.dataset && devOptions.dataset.locStorage !== "")) {
         devOptionsLocStore = localStorage.getItem(devOptions.dataset.locStorage);
     }
 
-    if (devOptionsLocStore === "true" || (devOptions !== null && devOptions.value.toLowerCase() === "true" && devOptionsLocStore !== "false")) {
+    if (event.target.readyState === "complete" && (devOptionsLocStore === "true" || (devOptions !== null && devOptions.value.toLowerCase() === "true" && devOptionsLocStore !== "false"))) {
         $("#site-banner-inc").on("wb-contentupdated", function () {
             let pageInfo, titleElm, subjectElm, descriptionElm, keywordsElm, modifyDateElm, issueDateElm, 
                 insertElm = document.getElementById(insertId), 
@@ -219,6 +219,7 @@ document.addEventListener("DOMContentLoaded", function initDevOpts() {
                     }
                     overlaySec = overlaySec + "\n    </div>\n</section>\n";
                     insertElm.outerHTML = insertElm.outerHTML + overlaySec;
+
                     if (overlayBox !== null) {
                         overlayBox.dispatchEvent(initOverlayEvent);
                     }
