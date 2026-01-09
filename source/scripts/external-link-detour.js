@@ -175,11 +175,12 @@ document.addEventListener("readystatechange", function(event) {
             visitedLinkStyle.innerHTML = "/*\n*** " + inlineStyleText1 + " ***\n\n" + inlineStyleText2 + "\n*//\n\n a[href*='" + exitPage.value + "']:visited { color:inherit; }\n.btn-primary[href*='" + exitPage.value + "']:visited, .btn-success[href*='" + exitPage.value + "']:visited, .btn-info[href*='" + exitPage.value + "']:visited, .btn-danger[href*='" + exitPage.value + "']:visited { color: #ffffff; }\n.btn-default[href*='" + exitPage.value + "']:visited { color: #335075; }\n.btn-warning[href*='" + exitPage.value + "']:visited { color: #000000; }\n";
             document.head.insertAdjacentHTML("beforeend", visitedLinkStyle);
         }
+
     }
 });
 
 // changes all external site links and forms to go to destination link
-document.addEventListener("wet-boew-ready", function () {
+document.addEventListener("wet-boew-ready", function() {
     defaultadjustLinks(this, false, relExternalLnk);
 });
 
