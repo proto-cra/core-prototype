@@ -204,12 +204,12 @@
         var defPreFooter = document.getElementById("def-preFooter");
         defPreFooter.outerHTML = wet.builder.preFooter({
             showShare: false, 
-            dateModified: "YYYY-MM-DD", 
             showFeedback: {
                 enabled: true, 
                 theme: "Taxes", 
                 section: "page title"
-            }
+            }, 
+            dateModified: "YYYY-MM-DD"
         });
     </script>
     <div id="def-footer">
@@ -220,9 +220,6 @@
     <script>
         var defFooter = document.getElementById("def-footer");
         defFooter.outerHTML = wet.builder.footer({
-            privacyLink: {
-                href: "https://www.canada.ca/en/revenue-agency/corporate/privacy-notice.html"
-            }, 
             contextualFooter: {
                 title: "Canada Revenue Agency (CRA)", 
                 links: [{
@@ -235,6 +232,9 @@
                     text: "About the CRA", 
                     href: "https://www.canada.ca/en/revenue-agency/corporate/about-canada-revenue-agency-cra.html"
                 }]
+            }, 
+            privacyLink: {
+                href: "https://www.canada.ca/en/revenue-agency/corporate/privacy-notice.html"
             }
         });
     </script>
@@ -242,7 +242,7 @@
     <script src="https://www.canada.ca/etc/designs/canada/wet-boew/js/wet-boew.min.js"></script>
     <span id="wb-rsz" class="wb-init">&nbsp;</span>
     <script src="https://www.canada.ca/etc/designs/canada/wet-boew/js/theme.min.js"></script>
-    <script src="https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2025-12-mille-iles.js"></script>
+    <script defer="defer" src="https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2025-12-mille-iles.js"></script>
     <!-- START of GitHub only scripts -->
     <script defer="defer" src="https://proto-cra.github.io/core-prototype/source/scripts/external-link-detour.js"></script>
     <script defer="defer" src="https://proto-cra.github.io/core-prototype/source/scripts/git-dev-options-e.js"></script>
