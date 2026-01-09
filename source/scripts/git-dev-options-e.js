@@ -44,7 +44,7 @@ let notedLinksArr, pageOrigin,
         }
     };
 
-document.addEventListener("DOMContentLoaded", function initDevOpts(event) {
+document.addEventListener("load", function initDevOpts(event) {
     let devOptionsLocStore = null, 
         editStartContent = "";
 
