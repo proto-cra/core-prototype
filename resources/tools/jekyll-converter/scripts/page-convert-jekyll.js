@@ -40,7 +40,7 @@ let outputPage = (function outputPage() {
         "formatOutputType": function (templateType, frontMatterType, yamlOutput, jsonOutput) {
             switch (frontMatterType) {
                 case "yaml":
-                    if (templateType === isJekyll) {
+                    if (templateType === "jekyll") {
                         return yamlOutput;
                     } else {
                         return jsonOutput;
