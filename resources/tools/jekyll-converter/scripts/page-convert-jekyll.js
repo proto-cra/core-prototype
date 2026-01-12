@@ -342,9 +342,15 @@ let outputPage = (function outputPage() {
                         return styleOutput;
                     }, 
                     "frontmatter": function frontmatter() {
-                        let outputData = [this.layout(), this.title(), this.description(), this.subject(), this.keywords(), this.auth(), this.altLangPage(), this.dateModified(), this.dateIssued(), this.breadcrumbs(), this.css(), this.script().value, this.feedbackData(), this.notedlinks()];
+                        let outputData = [this.layout(), this.title(), this.description(), this.subject(), this.keywords(), this.auth(), this.altLangPage(), this.dateModified(), this.dateIssued(), this.breadcrumbs(), this.css(), this.script().value, this.feedbackData(), this.notedlinks()], 
+                            fmData = outputPage().formatOutputType(templateType, frontMatterType, outputData.join(""), outputData.filter(Boolean).join(", \n"));
 
-                        return outputPage().formatOutputType(templateType, frontMatterType, outputData.join(""), outputData.filter(Boolean).join(", \n"));
+                        if (templateType === isJekyll) {
+                            return fmData;
+                        } else {
+                            return "[{" + fmData + "}]";
+                        }
+
                     }, 
                     "pagedata": function pagedata() {
                         return {
