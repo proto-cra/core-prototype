@@ -1,6 +1,6 @@
 ---
 testBanner: false
-title: "Convert page from URL to Jekyll/CDTS page"
+title: "Export URL into Jekyll/CDTS page template"
 dateModified: 2025-04-30
 dateIssued: 2025-04-30
 nomenu: true
@@ -15,7 +15,7 @@ noFooterMain: true
 <br>
 <section class="alert alert-info">
     <h2>Note:</h2>
-    <p>This tool reads most of the data used to populate the <strong>Front Matter</strong> section of the generated template from the <code>&lt;meta&gt;</code> tag section of the page so if there is none or limited <code>&lt;meta&gt;</code> tags then some data may not be generated..</p>
+    <p>This tool reads most of the data used to populate the <strong>Front Matter</strong> section of the generated template from the <code>&lt;meta&gt;</code> tag section of the page so if there is none or limited <code>&lt;meta&gt;</code> tags then some data may not be generated.</p>
     <p>Also:</p>
     <ul>
         <li>Pages with <strong>subways</strong> normally use a <strong>layout</strong> of <code>without-h1</code> </li>
@@ -24,11 +24,11 @@ noFooterMain: true
 </section>
 <section>
     <details>
-        <summary class="h4">Creating a bookmarklet to launch the convert page from URL to Jekyll or CDTS page tool</summary>
-        <p>This bookmarklet works like a bookmark but will launch the <strong>Convert page from URL to Jekyll/CDTS page tool</strong> for the current page you are viewing.</p>
-        <p>To create a bookmarklet for the <strong>Convert page from URL to Jekyll/CDTS page tool</strong> right-click the following link and select <strong>Add to favorites…</strong> or drag the link to your favorites or favorites bar.</p>
+        <summary class="h4">Creating a bookmarklet to launch the Export URL into Jekyll/CDTS page template tool</summary>
+        <p>This bookmarklet works like a bookmark but will launch the <strong>Export URL into Jekyll/CDTS page template tool</strong> for the current page you are viewing.</p>
+        <p>To create a bookmarklet for the <strong>Export URL into Jekyll/CDTS page template tool</strong> right-click the following link and select <strong>Add to favorites…</strong> or drag the link to your favorites or favorites bar.</p>
         <ul class="mrgn-tp-md list-unstyled">
-            <li><a id="jekyllCnvrtBmrklt" href="#">Convert page from URL to Jekyll or CDTS page tool</a></li>
+            <li><a id="jekyllCnvrtBmrklt" href="#">Export URL into Jekyll/CDTS page template tool</a></li>
         </ul>
     </details>
 </section>
@@ -53,7 +53,7 @@ noFooterMain: true
 -->
                 </select>
             </div>
-            <fieldset class="gc-chckbxrdio form-inline mrgn-lft-md mrgn-bttm-md">
+            <fieldset id="tmpltType" class="gc-chckbxrdio form-inline mrgn-lft-md mrgn-bttm-md">
                 <legend>Template type:</legend>
                     <div class="radio label-inline">
                         <input id="jekyll" type="radio" name="template" value="jekyll" checked="checked">
@@ -64,7 +64,7 @@ noFooterMain: true
                         <label for="cdts"><abbr title="Centrally Deployed Templates Solution">CDTS</abbr></label>
                     </div>
             </fieldset>
-            <fieldset class="gc-chckbxrdio form-inline mrgn-lft-md mrgn-bttm-lg">
+            <fieldset id="fmRadiobox" class="gc-chckbxrdio form-inline mrgn-lft-md mrgn-bttm-lg">
                 <legend>Front Matter code:</legend>
                 <div class="radio label-inline">
                     <input id="json" type="radio" name="frontmatter" value="json">
@@ -187,7 +187,14 @@ noFooterMain: true
             }
             return "";
         }, 
-        page_url = getQueryEl("uri");
+        page_url = getQueryEl("uri"), 
+        showHideInvis = function showHideInvis(isVisible, elmId) {
+            if (isVisible === true) {
+                document.getElementById(elmId).classList.remove("wb-inv");
+            } else {
+                document.getElementById(elmId).classList.add("wb-inv");
+            }
+        };
 
     // submit button
     document.getElementById("submitbutton").addEventListener("click", async function (e) {
@@ -241,6 +248,7 @@ noFooterMain: true
             resultArea.scrollTop = 0;
             resultArea.selectionStart = 0;
             resultArea.selectionEnd = 0;
+            showHideInvis(document.getElementById("addScripts").checked, "scriptresults");
             document.getElementById("scripttext").value = pageData.scriptCode;
             if (document.getElementById("github_path").value !== "") {
                 githubPath = document.getElementById("github_path").value;
@@ -271,10 +279,19 @@ noFooterMain: true
         this.select();
     });
 
+    document.getElementById("addScripts").addEventListener("click", function () {
+        showHideInvis(document.getElementById("addScripts").checked, "scriptresults");
+    });
+
+    document.getElementById("tmpltType").addEventListener("change", function (event) {
+        showHideInvis(document.getElementById("jekyll").checked, "fmRadio");
+    });
+
     // Initalize function once page finishes loading
     document.addEventListener("DOMContentLoaded", async function () {
         let githubPath_qrystr = getQueryEl("github_path"), 
             page_layout = getQueryEl("layout"), 
+            Template_type = getQueryEl("template"), 
             front_Matter = getQueryEl("frontmatter"), 
             noted_page_Arr = getQueryEl("noted_page_array"), 
             evt = document.createEvent("MouseEvents"), 
@@ -315,8 +332,18 @@ noFooterMain: true
             });
         }
 
+        if (Template_type !== null && Template_type !== "") {
+            document.querySelectorAll("input[type='radio'][name='template']").forEach(function (radio) {
+                if (radio.value === decodeURIComponent(Template_type)) {
+                    radio.checked = true;
+                }
+            });
+        }
+
+        showHideInvis(document.getElementById("jekyll").checked, "fmRadio");
         setCheckbox("style", "addStyles");
         setCheckbox("script", "addScripts");
+        showHideInvis(document.getElementById("addScripts").checked, "scriptresults");
         setCheckbox("prettier", "usePrettier");
         setCheckbox("mwsclassdivs", "removeMWSTags");
 
@@ -350,9 +377,9 @@ noFooterMain: true
             }
             downloadLink.click();
         }, 
-            destroyClickedElement = function destroyClickedElement(event) {
-                document.body.removeChild(event.target);
-            };
+        destroyClickedElement = function destroyClickedElement(event) {
+            document.body.removeChild(event.target);
+        };
 
         if (fileName !== "" && resultArea.value !== "") {
             saveTextAsFile();
