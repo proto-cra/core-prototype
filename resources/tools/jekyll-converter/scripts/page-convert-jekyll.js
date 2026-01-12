@@ -37,10 +37,10 @@ let outputPage = (function outputPage() {
 
             return fileLinkArr;
         }, 
-        "formatOutputType": function (frontMatterType, templateType, yamlOutput, jsonOutput) {
+        "formatOutputType": function (templateType, frontMatterType, yamlOutput, jsonOutput) {
             switch (frontMatterType) {
                 case "yaml":
-                    if (templateType === "jekyll") {
+                    if (templateType === isJekyll) {
                         return yamlOutput;
                     } else {
                         return jsonOutput;
@@ -53,6 +53,7 @@ let outputPage = (function outputPage() {
         }, 
         "convert": async function convert(pageLayout, templateType, frontMatterType, pageURIStr, notedPagesJSONStr, includeStyles, includeScripts, removeMWSdivs) {
             const isYAML = "yaml";
+            const isJekyll = "jekyll";
 
             let pageObj = await this.getPageObject(pageURIStr), 
                 fileLinkArr = await this.getFileLinkList(jsonFilePath), 
@@ -66,7 +67,7 @@ let outputPage = (function outputPage() {
                         encloseQuote = "\"";
                     }
                     if (metaEl !== null && metaEl.length > 0 && "content" in metaEl[0] === true) {
-                        return outputPage().formatOutputType(frontMatterType, templateType, fieldname + ": " + encloseQuote + metaEl[0].content.trim() + encloseQuote + "\n", "\"" + fieldname + "\": \"" + metaEl[0].content.trim() + "\"");
+                        return outputPage().formatOutputType(templateType, frontMatterType, fieldname + ": " + encloseQuote + metaEl[0].content.trim() + encloseQuote + "\n", "\"" + fieldname + "\": \"" + metaEl[0].content.trim() + "\"");
                     }
                     return "";
                 }, 
@@ -111,20 +112,20 @@ let outputPage = (function outputPage() {
                 };
 
             if (pageObj === null || pageObj === "") {
-                return { "fmCode": "", "htmlCode": "", "cssCode": "", "scriptCode": "" };
+                return {"fmCode": "", "htmlCode": "", "cssCode": "", "scriptCode": ""};
             } else {
                 return {
                     "layout": function layout() {
                         // Adds layout
                         if (pageLayout !== "") {
-                            return outputPage().formatOutputType(frontMatterType, templateType, "layout: " + pageLayout + "\n", "\"layout\": \"" + pageLayout + "\"");
+                            return outputPage().formatOutputType(templateType, frontMatterType, "layout: " + pageLayout + "\n", "\"layout\": \"" + pageLayout + "\"");
                         }
                         return "";
                     }, 
                     "title": function title() {
                         // Adds title
                         if (pageTitleObj !== null && "content" in pageTitleObj === true) {
-                            return outputPage().formatOutputType(frontMatterType, templateType, "title: \"" + pageTitleObj.content.trim() + "\"\n", "\"title\": \"" + pageTitleObj.content.trim() + "\"");
+                            return outputPage().formatOutputType(templateType, frontMatterType, "title: \"" + pageTitleObj.content.trim() + "\"\n", "\"title\": \"" + pageTitleObj.content.trim() + "\"");
                         }
                         return "";
                     }, 
@@ -143,7 +144,7 @@ let outputPage = (function outputPage() {
                     "auth": function auth() {
                         // generates CRA sign in button
                         if (pageObj.getElementById("wb-so") !== null) {
-                            return outputPage().formatOutputType(frontMatterType, templateType, "auth:\n  type: \"contextual\"\n  label: \"Sign in\"\n  labelExtended: \"CRA sign in\"\n  link: \"https://www.canada.ca/en/revenue-agency/services/e-services/cra-login-services.html\"\n", "\"auth\": [\n\"type\": \"contextual\", \n\"label\": \"Sign in\", \n\"labelExtended\": \"CRA sign in\", \n\"link\": \"https://www.canada.ca/en/revenue-agency/services/e-services/cra-login-services.html\"\n]");
+                            return outputPage().formatOutputType(templateType, frontMatterType, "auth:\n  type: \"contextual\"\n  label: \"Sign in\"\n  labelExtended: \"CRA sign in\"\n  link: \"https://www.canada.ca/en/revenue-agency/services/e-services/cra-login-services.html\"\n", "\"auth\": [\n\"type\": \"contextual\", \n\"label\": \"Sign in\", \n\"labelExtended\": \"CRA sign in\", \n\"link\": \"https://www.canada.ca/en/revenue-agency/services/e-services/cra-login-services.html\"\n]");
                         }
                         return "";
                     }, 
@@ -158,7 +159,7 @@ let outputPage = (function outputPage() {
                             altlangObj = pageObj.querySelector("link[rel=alternate][hreflang=fr]");
                         }
                         if (altlangObj !== null && typeof altlangObj !== "undefined") {
-                            return outputPage().formatOutputType(frontMatterType, templateType, "altLangPage: \"" + altlangObj.href + "\"\n", "\"altLangPage\": \"" + altlangObj.href + "\"");
+                            return outputPage().formatOutputType(templateType, frontMatterType, "altLangPage: \"" + altlangObj.href + "\"\n", "\"altLangPage\": \"" + altlangObj.href + "\"");
                         }
                         return "";
                     }, 
@@ -179,12 +180,12 @@ let outputPage = (function outputPage() {
                         if (typeof breadCrumbObj !== "undefined" && breadCrumbObj.length > 0) {
                             breadcrumbLinks = breadCrumbObj[0].querySelectorAll("a");
                             if (breadcrumbLinks.length > 1) {
-                                breadcrumbOutput = outputPage().formatOutputType(frontMatterType, templateType, "breadcrumbs: # By default the Canada.ca crumbs is already set\n", "\"breadcrumbs\": [");
+                                breadcrumbOutput = outputPage().formatOutputType(templateType, frontMatterType, "breadcrumbs: # By default the Canada.ca crumbs is already set\n", "\"breadcrumbs\": [");
                                 breadcrumbLinks.forEach(function addBreadCrumb(breadLink) {
                                     if (breadLink.textContent.toLowerCase() === "canada.ca") {
                                         return;
                                     }
-                                    if (frontMatterType === isYAML) {
+                                    if (frontMatterType === isYAML && templateType === isJekyll) {
                                         breadcrumbOutput += "  - title: \"" + breadLink.textContent.trim() + "\"\n    link: \"" + breadLink.href + "\"\n";
                                     } else {
                                         if (breadcrumbOutput.length > 17) {
@@ -195,7 +196,7 @@ let outputPage = (function outputPage() {
                                 });
                             }
                         }
-                        if (breadcrumbOutput === "" || frontMatterType === isYAML) {
+                        if (breadcrumbOutput === "" || (frontMatterType === isYAML && templateType === isJekyll)) {
                             return breadcrumbOutput;
                         } else {
                             return breadcrumbOutput + "\n]";
@@ -213,7 +214,7 @@ let outputPage = (function outputPage() {
                         cssLinks = noMainPageObj.querySelectorAll("link[rel=stylesheet]");
                         for (let cssLink of cssLinks) {
                             if (islinkInTemplate(fileLinkArr.stylsheetsRegEx, cssLink.href, "iv", true) === false) {
-                                if (frontMatterType === isYAML) {
+                                if (frontMatterType === isYAML && templateType === isJekyll) {
                                     cssOutput += "css: \"" + cssLink.href + "\"\n";
                                 } else {
                                     if (cssOutput === "") {
@@ -225,7 +226,7 @@ let outputPage = (function outputPage() {
                                 }
                             }
                         }
-                        if (cssOutput === "" || frontMatterType === isYAML) {
+                        if (cssOutput === "" || (frontMatterType === isYAML && templateType === isJekyll)) {
                             return cssOutput;
                         } else {
                             return cssOutput + "]";
@@ -250,7 +251,7 @@ let outputPage = (function outputPage() {
                                     scriptData += scriptElm.outerHTML + "\n";
                                 }
                             } else if (islinkInTemplate(fileLinkArr.scriptsRegEx, scriptElm.src, "iv", true) === false) {
-                                if (frontMatterType === isYAML) {
+                                if (frontMatterType === isYAML && templateType === isJekyll) {
                                     scriptOutput += "script: \"" + scriptElm.src + "\"\n";
                                 } else {
                                     if (scriptOutput === "") {
@@ -262,7 +263,7 @@ let outputPage = (function outputPage() {
                                 }
                             }
                         }
-                        if (scriptOutput === "" || frontMatterType === isYAML) {
+                        if (scriptOutput === "" || (frontMatterType === isYAML && templateType === isJekyll)) {
                             return {
                                 "value": scriptOutput, 
                                 "inline": scriptData
@@ -277,7 +278,7 @@ let outputPage = (function outputPage() {
                     "feedbackData": function feedbackData() {
                         // Sets feedback box
                         if (pageTitleObj !== null && "content" in pageTitleObj === true) {
-                            return outputPage().formatOutputType(frontMatterType, templateType, "feedbackData:\n  section: \"" + pageTitleObj.content + "\"\n", "\"feedbackData\": [\n{\n\"section\": \"" + pageTitleObj.content + "\"\n}\n]");
+                            return outputPage().formatOutputType(templateType, frontMatterType, "feedbackData:\n  section: \"" + pageTitleObj.content + "\"\n", "\"feedbackData\": [\n{\n\"section\": \"" + pageTitleObj.content + "\"\n}\n]");
                         }
                         return "";
                     }, 
@@ -288,7 +289,7 @@ let outputPage = (function outputPage() {
                             createNoteLink = function createNoteLink(refURIStr, linkText) {
                                 let pageURI = new URL(refURIStr);
 
-                                return outputPage().formatOutputType(frontMatterType, templateType, "\n  - title: \"" + linkText + "\"\n    link: \"" + pageURI.origin + pageURI.pathname + "\"", "\n{\n\"title\": \"" + linkText + "\", \n\"link\": \"" + pageURI.origin + pageURI.pathname + "\"\n}");
+                                return outputPage().formatOutputType(templateType, frontMatterType, "\n  - title: \"" + linkText + "\"\n    link: \"" + pageURI.origin + pageURI.pathname + "\"", "\n{\n\"title\": \"" + linkText + "\", \n\"link\": \"" + pageURI.origin + pageURI.pathname + "\"\n}");
                             }, 
                             getJSONArr = function getJSONArr(jsonStr) {
                                 let arr;
@@ -311,7 +312,7 @@ let outputPage = (function outputPage() {
                         if (notedPageArr !== null) {
                             notedPageArr.forEach(function addNotedPage(notedPage) {
                                 if ("link" in notedPage && "title" in notedPage) {
-                                    if (linkRef !== "" && frontMatterType !== isYAML) {
+                                    if (linkRef !== "" && (frontMatterType !== isYAML || templateType !== isJekyll)) {
                                         linkRef += ", ";
                                     }
                                     linkRef += createNoteLink(notedPage.link, notedPage.title);
@@ -319,7 +320,7 @@ let outputPage = (function outputPage() {
                             });
                         }
                         if (linkRef !== "") {
-                            return outputPage().formatOutputType(frontMatterType, templateType, "notedlinks:" + linkRef + "\n", "\"notedlinks\": [" + linkRef + "\n]");
+                            return outputPage().formatOutputType(templateType, frontMatterType, "notedlinks:" + linkRef + "\n", "\"notedlinks\": [" + linkRef + "\n]");
                         }
                         return "";
                     }, 
@@ -343,7 +344,7 @@ let outputPage = (function outputPage() {
                     "frontmatter": function frontmatter() {
                         let outputData = [this.layout(), this.title(), this.description(), this.subject(), this.keywords(), this.auth(), this.altLangPage(), this.dateModified(), this.dateIssued(), this.breadcrumbs(), this.css(), this.script().value, this.feedbackData(), this.notedlinks()];
 
-                        return outputPage().formatOutputType(frontMatterType, templateType, outputData.join(""), outputData.filter(Boolean).join(", \n"));
+                        return outputPage().formatOutputType(templateType, frontMatterType, outputData.join(""), outputData.filter(Boolean).join(", \n"));
                     }, 
                     "pagedata": function pagedata() {
                         return {
@@ -354,7 +355,7 @@ let outputPage = (function outputPage() {
                         };
                     }, 
                     "pagecode": function pagecode() {
-                        return outputPage().formatOutputType(frontMatterType, templateType, "---\n" + this.frontmatter() + "---\n\n" + this.style() + this.html(), "---\n{\n" + this.frontmatter() + "\n}\n---\n\n" + this.style() + this.html());
+                        return outputPage().formatOutputType(templateType, frontMatterType, "---\n" + this.frontmatter() + "---\n\n" + this.style() + this.html(), "---\n{\n" + this.frontmatter() + "\n}\n---\n\n" + this.style() + this.html());
                     }, 
                     "htmldoc": function htmldoc() {
                         let mainPageObj = pageObj.cloneNode(true), 
