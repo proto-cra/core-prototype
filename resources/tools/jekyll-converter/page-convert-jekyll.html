@@ -55,14 +55,14 @@ noFooterMain: true
             </div>
             <fieldset id="tmpltType" class="gc-chckbxrdio form-inline mrgn-lft-md mrgn-bttm-md">
                 <legend>Template type:</legend>
-                    <div class="radio label-inline">
-                        <input id="jekyll" type="radio" name="template" value="jekyll" checked="checked">
-                        <label for="jekyll">Jekyll</label>
-                    </div>
-                    <div class="radio label-inline">
-                        <input id="cdts" type="radio" name="template" value="cdts">
-                        <label for="cdts"><abbr title="Centrally Deployed Templates Solution">CDTS</abbr></label>
-                    </div>
+                <div class="radio label-inline">
+                    <input id="jekyll" type="radio" name="template" value="jekyll" checked="checked">
+                    <label for="jekyll">Jekyll</label>
+                </div>
+                <div class="radio label-inline">
+                    <input id="cdts" type="radio" name="template" value="cdts">
+                    <label for="cdts"><abbr title="Centrally Deployed Templates Solution">CDTS</abbr></label>
+                </div>
             </fieldset>
             <fieldset id="fmRadiobox" class="gc-chckbxrdio form-inline mrgn-lft-md mrgn-bttm-lg">
                 <legend>Front Matter code:</legend>
@@ -284,7 +284,7 @@ noFooterMain: true
     });
 
     document.getElementById("tmpltType").addEventListener("change", function (event) {
-        showHideInvis(document.getElementById("jekyll").checked, "fmRadio");
+        showHideInvis(document.getElementById("jekyll").checked, "fmRadiobox");
     });
 
     // Initalize function once page finishes loading
@@ -340,7 +340,7 @@ noFooterMain: true
             });
         }
 
-        showHideInvis(document.getElementById("jekyll").checked, "fmRadio");
+        showHideInvis(document.getElementById("jekyll").checked, "fmRadiobox");
         setCheckbox("style", "addStyles");
         setCheckbox("script", "addScripts");
         showHideInvis(document.getElementById("addScripts").checked, "scriptresults");
