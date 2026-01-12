@@ -7,7 +7,7 @@ let outputPage = (function outputPage() {
     return {
         "getPageObject": async function getPageObject(pageURIStr) {
             const parser = new DOMParser();
-            let pageURI, data, result,
+            let pageURI, data, result, 
                 absUrlRegEx = new RegExp("((?:<[a-z]+?\\s[^>]*?)(?:(?:href|src|cite|longdesc|action|formaction|poster|icon|manifest|srcset|data(?:-[a-z\\-]+)?)=['\"]))(\\/(?:[^\\/]{1}[^\'\"]+?))(?=['\"][^>]*?>)", "giv");
 
             if (pageURIStr !== "") {
@@ -29,43 +29,47 @@ let outputPage = (function outputPage() {
                 }
             }
             return null;
-        },
+        }, 
         "getFileLinkList": async function getFileLinkList(jsonFilePath) {
             // let regexLinkData = await $.get(jsonFilePath), 
             // fileLinkArr = JSON.parse(regexLinkData);
             let fileLinkArr = await $.get(jsonFilePath);
 
             return fileLinkArr;
-        },
-        "formatOutputType": function (frontMatterType, yamlOutput, jsonOutput) {
+        }, 
+        "formatOutputType": function (frontMatterType, templateType, yamlOutput, jsonOutput) {
             switch (frontMatterType) {
                 case "yaml":
-                    return yamlOutput;
+                    if (templateType === "jekyll") {
+                        return yamlOutput;
+                    } else {
+                        return jsonOutput;
+                    }
                 case "json":
                     return jsonOutput;
                 default:
                     return "";
             }
-        },
-        "convert": async function convert(pageLayout, frontMatterType, pageURIStr, notedPagesJSONStr, includeStyles, includeScripts, removeMWSdivs) {
+        }, 
+        "convert": async function convert(pageLayout, templateType, frontMatterType, pageURIStr, notedPagesJSONStr, includeStyles, includeScripts, removeMWSdivs) {
             const isYAML = "yaml";
 
-            let pageObj = await this.getPageObject(pageURIStr),
-                fileLinkArr = await this.getFileLinkList(jsonFilePath),
-                pageTitleObj = pageObj.querySelector("meta[name=dcterms\\.title]"),
+            let pageObj = await this.getPageObject(pageURIStr), 
+                fileLinkArr = await this.getFileLinkList(jsonFilePath), 
+                pageTitleObj = pageObj.querySelector("meta[name=dcterms\\.title]"), 
                 getMetaDataContent = function getMetaDataContent(pageObj, fieldname, metafield, addQuote) {
                     // Add a Metadata value as a string
-                    let encloseQuote = "",
+                    let encloseQuote = "", 
                         metaEl = pageObj.getElementsByName(metafield);
 
                     if (addQuote === true) {
                         encloseQuote = "\"";
                     }
                     if (metaEl !== null && metaEl.length > 0 && "content" in metaEl[0] === true) {
-                        return outputPage().formatOutputType(frontMatterType, fieldname + ": " + encloseQuote + metaEl[0].content.trim() + encloseQuote + "\n", "\"" + fieldname + "\": \"" + metaEl[0].content.trim() + "\"");
+                        return outputPage().formatOutputType(frontMatterType, templateType, fieldname + ": " + encloseQuote + metaEl[0].content.trim() + encloseQuote + "\n", "\"" + fieldname + "\": \"" + metaEl[0].content.trim() + "\"");
                     }
                     return "";
-                },
+                }, 
                 islinkInTemplate = function islinkInTemplate(linkArr, checkURL, regExFlag, isDecoded) {
                     // Checks if the <script> or <link> css file is in the JSON file to be ignored from adding to the page
                     return linkArr.some(function (linkStr) {
@@ -76,10 +80,10 @@ let outputPage = (function outputPage() {
                             return linkRegEx.test(checkURL.trim().toLowerCase());
                         }
                     }, checkURL);
-                },
+                }, 
                 cleanMain = function cleanMain(mainPageObj, pageLayout) {
-                    let headerElms, mwsElms,
-                        cleanObj = mainPageObj.cloneNode(true),
+                    let headerElms, mwsElms, 
+                        cleanObj = mainPageObj.cloneNode(true), 
                         pagedetailsEl = cleanObj.getElementsByClassName("pagedetails");
 
                     // Removes page details section
@@ -113,39 +117,39 @@ let outputPage = (function outputPage() {
                     "layout": function layout() {
                         // Adds layout
                         if (pageLayout !== "") {
-                            return outputPage().formatOutputType(frontMatterType, "layout: " + pageLayout + "\n", "\"layout\": \"" + pageLayout + "\"");
+                            return outputPage().formatOutputType(frontMatterType, templateType, "layout: " + pageLayout + "\n", "\"layout\": \"" + pageLayout + "\"");
                         }
                         return "";
-                    },
+                    }, 
                     "title": function title() {
                         // Adds title
                         if (pageTitleObj !== null && "content" in pageTitleObj === true) {
-                            return outputPage().formatOutputType(frontMatterType, "title: \"" + pageTitleObj.content.trim() + "\"\n", "\"title\": \"" + pageTitleObj.content.trim() + "\"");
+                            return outputPage().formatOutputType(frontMatterType, templateType, "title: \"" + pageTitleObj.content.trim() + "\"\n", "\"title\": \"" + pageTitleObj.content.trim() + "\"");
                         }
                         return "";
-                    },
+                    }, 
                     "description": function description() {
                         // Adds description
                         return getMetaDataContent(pageObj, "description", "dcterms.description", true);
-                    },
+                    }, 
                     "subject": function subject() {
                         // Adds subject
                         return getMetaDataContent(pageObj, "subject", "dcterms.subject", true);
-                    },
+                    }, 
                     "keywords": function keywords() {
                         // Adds keywords
                         return getMetaDataContent(pageObj, "keywords", "keywords", true);
-                    },
-                    "login": function login() {
+                    }, 
+                    "auth": function auth() {
                         // generates CRA sign in button
                         if (pageObj.getElementById("wb-so") !== null) {
-                            return outputPage().formatOutputType(frontMatterType, "auth:\n  type: \"contextual\"\n  label: \"Sign in\"\n  labelExtended: \"CRA sign in\"\n  link: \"https://www.canada.ca/en/revenue-agency/services/e-services/cra-login-services.html\"\n", "\"auth\": [\n\"type\": \"contextual\", \n\"label\": \"Sign in\", \n\"labelExtended\": \"CRA sign in\", \n\"link\": \"https://www.canada.ca/en/revenue-agency/services/e-services/cra-login-services.html\"\n]");
+                            return outputPage().formatOutputType(frontMatterType, templateType, "auth:\n  type: \"contextual\"\n  label: \"Sign in\"\n  labelExtended: \"CRA sign in\"\n  link: \"https://www.canada.ca/en/revenue-agency/services/e-services/cra-login-services.html\"\n", "\"auth\": [\n\"type\": \"contextual\", \n\"label\": \"Sign in\", \n\"labelExtended\": \"CRA sign in\", \n\"link\": \"https://www.canada.ca/en/revenue-agency/services/e-services/cra-login-services.html\"\n]");
                         }
                         return "";
-                    },
-                    "altlangpage": function altlangpage() {
+                    }, 
+                    "altLangPage": function altLangPage() {
                         // Adds alternate language link
-                        let altlangObj,
+                        let altlangObj, 
                             pagelang = pageObj.getElementsByTagName("html")[0].lang;
 
                         if (pagelang === "fr") {
@@ -154,28 +158,28 @@ let outputPage = (function outputPage() {
                             altlangObj = pageObj.querySelector("link[rel=alternate][hreflang=fr]");
                         }
                         if (altlangObj !== null && typeof altlangObj !== "undefined") {
-                            return outputPage().formatOutputType(frontMatterType, "altLangPage: \"" + altlangObj.href + "\"\n", "\"altLangPage\": \"" + altlangObj.href + "\"");
+                            return outputPage().formatOutputType(frontMatterType, templateType, "altLangPage: \"" + altlangObj.href + "\"\n", "\"altLangPage\": \"" + altlangObj.href + "\"");
                         }
                         return "";
-                    },
-                    "datemodified": function datemodified() {
+                    }, 
+                    "dateModified": function dateModified() {
                         // Adds date modified
                         return getMetaDataContent(pageObj, "dateModified", "dcterms.modified", false);
-                    },
-                    "dateissued": function dateissued() {
+                    }, 
+                    "dateIssued": function dateIssued() {
                         // Adds date issued
                         return getMetaDataContent(pageObj, "dateIssued", "dcterms.issued", false);
-                    },
+                    }, 
                     "breadcrumbs": function breadcrumbs() {
                         // Adds breadcrumbs
-                        let breadcrumbLinks,
-                            breadcrumbOutput = "",
+                        let breadcrumbLinks, 
+                            breadcrumbOutput = "", 
                             breadCrumbObj = pageObj.getElementsByClassName("breadcrumb");
 
                         if (typeof breadCrumbObj !== "undefined" && breadCrumbObj.length > 0) {
                             breadcrumbLinks = breadCrumbObj[0].querySelectorAll("a");
                             if (breadcrumbLinks.length > 1) {
-                                breadcrumbOutput = outputPage().formatOutputType(frontMatterType, "breadcrumbs: # By default the Canada.ca crumbs is already set\n", "\"breadcrumbs\": [");
+                                breadcrumbOutput = outputPage().formatOutputType(frontMatterType, templateType, "breadcrumbs: # By default the Canada.ca crumbs is already set\n", "\"breadcrumbs\": [");
                                 breadcrumbLinks.forEach(function addBreadCrumb(breadLink) {
                                     if (breadLink.textContent.toLowerCase() === "canada.ca") {
                                         return;
@@ -196,11 +200,11 @@ let outputPage = (function outputPage() {
                         } else {
                             return breadcrumbOutput + "\n]";
                         }
-                    },
+                    }, 
                     "css": function css() {
                         // Adds links to CSS files
-                        let cssLinks,
-                            cssOutput = "",
+                        let cssLinks, 
+                            cssOutput = "", 
                             noMainPageObj = pageObj.cloneNode(true);
 
                         if (noMainPageObj.getElementsByTagName("main").length > 0) {
@@ -226,12 +230,12 @@ let outputPage = (function outputPage() {
                         } else {
                             return cssOutput + "]";
                         }
-                    },
+                    }, 
                     "script": function script() {
                         // Adds links to script files
-                        let scriptElms,
-                            scriptData = "",
-                            scriptOutput = "",
+                        let scriptElms, 
+                            scriptData = "", 
+                            scriptOutput = "", 
                             noMainPageObj = pageObj.cloneNode(true);
 
                         if (noMainPageObj.getElementsByTagName("main").length > 0) {
@@ -260,32 +264,32 @@ let outputPage = (function outputPage() {
                         }
                         if (scriptOutput === "" || frontMatterType === isYAML) {
                             return {
-                                "value": scriptOutput,
+                                "value": scriptOutput, 
                                 "inline": scriptData
                             };
                         } else {
                             return {
-                                "value": scriptOutput + "]",
+                                "value": scriptOutput + "]", 
                                 "inline": scriptData
                             };
                         }
-                    },
-                    "feedbackdata": function feedbackdata() {
+                    }, 
+                    "feedbackData": function feedbackData() {
                         // Sets feedback box
                         if (pageTitleObj !== null && "content" in pageTitleObj === true) {
-                            return outputPage().formatOutputType(frontMatterType, "feedbackData:\n  section: \"" + pageTitleObj.content + "\"\n", "\"feedbackData\": [\n{\n\"section\": \"" + pageTitleObj.content + "\"\n}\n]");
+                            return outputPage().formatOutputType(frontMatterType, templateType, "feedbackData:\n  section: \"" + pageTitleObj.content + "\"\n", "\"feedbackData\": [\n{\n\"section\": \"" + pageTitleObj.content + "\"\n}\n]");
                         }
                         return "";
-                    },
+                    }, 
                     "notedlinks": function notedlinks() {
                         // Adds URLs as noted page links
-                        let notedPageArr,
-                            linkRef = "",
+                        let notedPageArr, 
+                            linkRef = "", 
                             createNoteLink = function createNoteLink(refURIStr, linkText) {
                                 let pageURI = new URL(refURIStr);
 
-                                return outputPage().formatOutputType(frontMatterType, "\n  - title: \"" + linkText + "\"\n    link: \"" + pageURI.origin + pageURI.pathname + "\"", "\n{\n\"title\": \"" + linkText + "\", \n\"link\": \"" + pageURI.origin + pageURI.pathname + "\"\n}");
-                            },
+                                return outputPage().formatOutputType(frontMatterType, templateType, "\n  - title: \"" + linkText + "\"\n    link: \"" + pageURI.origin + pageURI.pathname + "\"", "\n{\n\"title\": \"" + linkText + "\", \n\"link\": \"" + pageURI.origin + pageURI.pathname + "\"\n}");
+                            }, 
                             getJSONArr = function getJSONArr(jsonStr) {
                                 let arr;
 
@@ -315,14 +319,14 @@ let outputPage = (function outputPage() {
                             });
                         }
                         if (linkRef !== "") {
-                            return outputPage().formatOutputType(frontMatterType, "notedlinks:" + linkRef + "\n", "\"notedlinks\": [" + linkRef + "\n]");
+                            return outputPage().formatOutputType(frontMatterType, templateType, "notedlinks:" + linkRef + "\n", "\"notedlinks\": [" + linkRef + "\n]");
                         }
                         return "";
-                    },
+                    }, 
                     "style": function style() {
                         // Adds any <style> tags outside of the <main> tag and adds them to the bottom of the content
-                        let styleElms,
-                            styleOutput = "",
+                        let styleElms, 
+                            styleOutput = "", 
                             noMainPageObj = pageObj.cloneNode(true);
 
                         if (includeStyles === true) {
@@ -335,35 +339,35 @@ let outputPage = (function outputPage() {
                             }
                         }
                         return styleOutput;
-                    },
+                    }, 
                     "frontmatter": function frontmatter() {
-                        let outputData = [this.layout(), this.title(), this.description(), this.subject(), this.keywords(), this.login(), this.altlangpage(), this.datemodified(), this.dateissued(), this.breadcrumbs(), this.css(), this.script().value, this.feedbackdata(), this.notedlinks()];
+                        let outputData = [this.layout(), this.title(), this.description(), this.subject(), this.keywords(), this.auth(), this.altLangPage(), this.dateModified(), this.dateIssued(), this.breadcrumbs(), this.css(), this.script().value, this.feedbackData(), this.notedlinks()];
 
-                        return outputPage().formatOutputType(frontMatterType, outputData.join(""), outputData.filter(Boolean).join(", \n"));
-                    },
+                        return outputPage().formatOutputType(frontMatterType, templateType, outputData.join(""), outputData.filter(Boolean).join(", \n"));
+                    }, 
                     "pagedata": function pagedata() {
                         return {
-                            "fmCode": this.frontmatter(),
-                            "htmlCode": this.html(),
-                            "cssCode": this.style(),
+                            "fmCode": this.frontmatter(), 
+                            "htmlCode": this.html(), 
+                            "cssCode": this.style(), 
                             "scriptCode": this.script().inline
                         };
-                    },
+                    }, 
                     "pagecode": function pagecode() {
-                        return outputPage().formatOutputType(frontMatterType, "---\n" + this.frontmatter() + "---\n\n" + this.style() + this.html(), "---\n{\n" + this.frontmatter() + "\n}\n---\n\n" + this.style() + this.html());
-                    },
+                        return outputPage().formatOutputType(frontMatterType, templateType, "---\n" + this.frontmatter() + "---\n\n" + this.style() + this.html(), "---\n{\n" + this.frontmatter() + "\n}\n---\n\n" + this.style() + this.html());
+                    }, 
                     "htmldoc": function htmldoc() {
-                        let mainPageObj = pageObj.cloneNode(true),
+                        let mainPageObj = pageObj.cloneNode(true), 
                             mainCode = mainPageObj.getElementsByTagName("main");
 
                         if (mainCode.length > 0) {
                             return cleanMain(mainCode[0], pageLayout);
                         }
                         return mainPageObj;
-                    },
+                    }, 
                     "html": function html() {
-                        let mainCodeObj,
-                            mainPageObj = pageObj.cloneNode(true),
+                        let mainCodeObj, 
+                            mainPageObj = pageObj.cloneNode(true), 
                             mainCode = mainPageObj.getElementsByTagName("main");
 
                         if (mainCode.length > 0) {
@@ -376,6 +380,6 @@ let outputPage = (function outputPage() {
             }
         }
     };
-}());
+})();
 
 export default outputPage;
