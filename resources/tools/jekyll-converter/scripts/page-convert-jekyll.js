@@ -144,7 +144,7 @@ let outputPage = (function outputPage() {
                     "auth": function auth() {
                         // generates CRA sign in button
                         if (pageObj.getElementById("wb-so") !== null) {
-                            return outputPage().formatOutputType(templateType, frontMatterType, "auth:\n  type: \"contextual\"\n  label: \"Sign in\"\n  labelExtended: \"CRA sign in\"\n  link: \"https://www.canada.ca/en/revenue-agency/services/e-services/cra-login-services.html\"\n", "\"auth\": [\n\"type\": \"contextual\", \n\"label\": \"Sign in\", \n\"labelExtended\": \"CRA sign in\", \n\"link\": \"https://www.canada.ca/en/revenue-agency/services/e-services/cra-login-services.html\"\n]");
+                            return outputPage().formatOutputType(templateType, frontMatterType, "auth:\n  type: \"contextual\"\n  label: \"Sign in\"\n  labelExtended: \"CRA sign in\"\n  link: \"https://www.canada.ca/en/revenue-agency/services/e-services/cra-login-services.html\"\n", "\"auth\": [\n{\n\"type\": \"contextual\", \n\"label\": \"Sign in\", \n\"labelExtended\": \"CRA sign in\", \n\"link\": \"https://www.canada.ca/en/revenue-agency/services/e-services/cra-login-services.html\"\n}\n]");
                         }
                         return "";
                     }, 
@@ -348,7 +348,7 @@ let outputPage = (function outputPage() {
                         if (templateType === isJekyll) {
                             return fmData;
                         } else {
-                            return "[{" + fmData + "}]";
+                            return "{" + fmData + "}";
                         }
 
                     }, 
