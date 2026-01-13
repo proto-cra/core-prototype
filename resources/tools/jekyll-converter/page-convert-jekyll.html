@@ -52,7 +52,7 @@ noFooterMain: true
             </fieldset>
             <div id="layoutSelect" class="form-group">
                 <div class="mrgn-lft-md">
-                    <label for="layout" class="h5 mrgn-tp-md"><span class="field-name">Layout</span></label>
+                    <label for="layout" class="h5 mrgn-tp-sm"><span class="field-name">Layout</span></label>
                 </div>
                 <select id="layout" name="layout" class="form-control input-lg mrgn-lft-md">
                     <option selected="selected" value="">default</option>
@@ -285,7 +285,7 @@ noFooterMain: true
     });
 
     document.getElementById("tmpltType").addEventListener("change", function (event) {
-        showHideInvis(document.getElementById("jekyll").checked, "layoutselect");
+        showHideInvis(document.getElementById("jekyll").checked, "layoutSelect");
         showHideInvis(document.getElementById("jekyll").checked, "fmRadiobox");
     });
 
@@ -342,7 +342,7 @@ noFooterMain: true
             });
         }
 
-        showHideInvis(document.getElementById("jekyll").checked, "layoutselect");
+        showHideInvis(document.getElementById("jekyll").checked, "layoutSelect");
         showHideInvis(document.getElementById("jekyll").checked, "fmRadiobox");
         setCheckbox("style", "addStyles");
         setCheckbox("script", "addScripts");
