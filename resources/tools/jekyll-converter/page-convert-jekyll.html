@@ -65,7 +65,7 @@ noFooterMain: true
 -->
                 </select>
             </div>
-            <fieldset id="fmRadiobox" class="gc-chckbxrdio form-inline mrgn-lft-md mrgn-bttm-lg">
+            <fieldset id="fmRadiobox" class="gc-chckbxrdio form-inline mrgn-lft-md mrgn-tp-md mrgn-bttm-md">
                 <legend>Front Matter code:</legend>
                 <div class="radio label-inline">
                     <input id="json" type="radio" name="frontmatter" value="json">
@@ -86,22 +86,21 @@ noFooterMain: true
                 </div>
             </div>
             <div class="col-xs-12">
-                <hr>
                 <fieldset class="gc-chckbxrdio">
-                    <ul class="list-unstyled form-inline lst-spcd-2 mrgn-bttm-md">
-                        <li class="checkbox mrgn-lft-md">
+                    <ul class="list-unstyled form-inline lst-spcd-2 mrgn-bttm-sm mrgn-tp-lg">
+                        <li class="checkbox mrgn-lft-md pb-2">
                             <input id="addStyles" type="checkbox" checked="checked" value="true">
                             <label for="addStyles">Include all <code>&lt;style&gt;</code> tags</label>
                         </li>
-                        <li class="checkbox mrgn-lft-md">
+                        <li class="checkbox mrgn-lft-md pb-2">
                             <input id="addScripts" type="checkbox" checked="checked" value="true">
                             <label for="addScripts">Get all inline <code>&lt;script&gt;</code> tags</label>
                         </li>
-                        <li class="checkbox mrgn-lft-md">
+                        <li class="checkbox mrgn-lft-md pb-2">
                             <input id="usePrettier" type="checkbox" checked="checked" value="true">
                             <label for="usePrettier">Format HTML (Prettier)</label>
                         </li>
-                        <li class="checkbox mrgn-lft-md">
+                        <li class="checkbox mrgn-lft-md pb-2">
                             <input id="removeMWSTags" type="checkbox" checked="checked" value="true">
                             <label for="removeMWSTags">Remove all parent <code>&lt;div&gt;</code> tags with <abbr title="Managed Web Service">MWS</abbr> class</label>
                         </li>
