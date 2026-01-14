@@ -239,11 +239,7 @@ noFooterMain: true
                 htmlMain = pageData.cssCode + pageData.htmlCode;
             }
 
-            if (frontMatterType === "yaml") {
-                resultArea.value = "---\n" + pageData.fmCode + "\n---\n\n" + htmlMain.replace(new RegExp("([\r\n]+?\s+)(?=>)", "gm"), "");
-            } else {
-                resultArea.value = "---\n{\n" + pageData.fmCode + "\n}\n---\n\n" + htmlMain.replace(new RegExp("([\r\n]+?\s+)(?=>)", "gm"), "");
-            }
+            resultArea.value = "---\n" + pageData.fmCode + "\n---\n\n" + htmlMain.replace(new RegExp("([\r\n]+?\s+)(?=>)", "gm"), "");
             resultArea.focus();
             resultArea.scrollTop = 0;
             resultArea.selectionStart = 0;
