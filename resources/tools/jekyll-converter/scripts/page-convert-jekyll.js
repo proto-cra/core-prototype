@@ -40,7 +40,7 @@ let outputPage = (function outputPage() {
         "formatOutputType": function (templateType, frontMatterType, yamlOutput, jsonOutput) {
             switch (frontMatterType) {
                 case "yaml":
-                    if (templateType === "jekyll") {
+                    if (templateType === "") {
                         return yamlOutput;
                     } else {
                         return jsonOutput;
@@ -53,7 +53,6 @@ let outputPage = (function outputPage() {
         }, 
         "convert": async function convert(pageLayout, templateType, frontMatterType, pageURIStr, notedPagesJSONStr, includeStyles, includeScripts, removeMWSdivs) {
             const isYAML = "yaml";
-            const isJekyll = "jekyll";
 
             let pageObj = await this.getPageObject(pageURIStr), 
                 fileLinkArr = await this.getFileLinkList(jsonFilePath), 
@@ -116,9 +115,15 @@ let outputPage = (function outputPage() {
             } else {
                 return {
                     "layout": function layout() {
+                        let mainCode = pageObj.getElementsByTagName("main")[0];
+
                         // Adds layout
-                        if (pageLayout !== "") {
-                            return outputPage().formatOutputType(templateType, frontMatterType, "layout: " + pageLayout + "\n", "\"layout\": \"" + pageLayout + "\"");
+                        if (templateType === "") {
+                            if (pageLayout !== "") {
+                                return outputPage().formatOutputType(templateType, frontMatterType, "layout: " + pageLayout + "\n", "\"layout\": \"" + pageLayout + "\"");
+                            }
+                        } else if (mainCode.classList.contains("container") === true) {
+                            return "\"layout\": \"without-h1\"";
                         }
                         return "";
                     }, 
@@ -185,7 +190,7 @@ let outputPage = (function outputPage() {
                                     if (breadLink.textContent.toLowerCase() === "canada.ca") {
                                         return;
                                     }
-                                    if (frontMatterType === isYAML && templateType === isJekyll) {
+                                    if (frontMatterType === isYAML && templateType === "") {
                                         breadcrumbOutput += "  - title: \"" + breadLink.textContent.trim() + "\"\n    link: \"" + breadLink.href + "\"\n";
                                     } else {
                                         if (breadcrumbOutput.length > 17) {
@@ -196,10 +201,17 @@ let outputPage = (function outputPage() {
                                 });
                             }
                         }
-                        if (breadcrumbOutput === "" || (frontMatterType === isYAML && templateType === isJekyll)) {
+                        if (breadcrumbOutput === "" || (frontMatterType === isYAML && templateType === "")) {
                             return breadcrumbOutput;
                         } else {
                             return breadcrumbOutput + "\n]";
+                        }
+                    }, 
+                    "pageClass": function pageClass() {
+                        let bodyClass = pageObj.body.classList;
+
+                        if (bodyClass.length > 0) {
+                            return outputPage().formatOutputType(templateType, frontMatterType, "pageClass: \"" + bodyClass.toString() + "\"\n", "\"pageClass\": \"" + bodyClass.toString() + "\"");
                         }
                     }, 
                     "css": function css() {
@@ -214,7 +226,7 @@ let outputPage = (function outputPage() {
                         cssLinks = noMainPageObj.querySelectorAll("link[rel=stylesheet]");
                         for (let cssLink of cssLinks) {
                             if (islinkInTemplate(fileLinkArr.stylsheetsRegEx, cssLink.href, "iv", true) === false) {
-                                if (frontMatterType === isYAML && templateType === isJekyll) {
+                                if (frontMatterType === isYAML && templateType === "") {
                                     cssOutput += "css: \"" + cssLink.href + "\"\n";
                                 } else {
                                     if (cssOutput === "") {
@@ -226,7 +238,7 @@ let outputPage = (function outputPage() {
                                 }
                             }
                         }
-                        if (cssOutput === "" || (frontMatterType === isYAML && templateType === isJekyll)) {
+                        if (cssOutput === "" || (frontMatterType === isYAML && templateType === "")) {
                             return cssOutput;
                         } else {
                             return cssOutput + "]";
@@ -245,13 +257,12 @@ let outputPage = (function outputPage() {
                         scriptElms = noMainPageObj.getElementsByTagName("script");
                         for (let scriptElm of scriptElms) {
                             if (scriptElm.innerHTML !== "") {
-
                                 // Gets any <script> tags outside of the <main> tag and adds them to the bottom of the content
                                 if (includeScripts === true && islinkInTemplate(fileLinkArr.inlineScript, scriptElm.textContent.replace(/[\r\n\s]+/g, "").toLowerCase(), "iv", false) === false) {
                                     scriptData += scriptElm.outerHTML + "\n";
                                 }
                             } else if (islinkInTemplate(fileLinkArr.scriptsRegEx, scriptElm.src, "iv", true) === false) {
-                                if (frontMatterType === isYAML && templateType === isJekyll) {
+                                if (frontMatterType === isYAML && templateType === "") {
                                     scriptOutput += "script: \"" + scriptElm.src + "\"\n";
                                 } else {
                                     if (scriptOutput === "") {
@@ -263,7 +274,7 @@ let outputPage = (function outputPage() {
                                 }
                             }
                         }
-                        if (scriptOutput === "" || (frontMatterType === isYAML && templateType === isJekyll)) {
+                        if (scriptOutput === "" || (frontMatterType === isYAML && templateType === "")) {
                             return {
                                 "value": scriptOutput, 
                                 "inline": scriptData
@@ -312,7 +323,7 @@ let outputPage = (function outputPage() {
                         if (notedPageArr !== null) {
                             notedPageArr.forEach(function addNotedPage(notedPage) {
                                 if ("link" in notedPage && "title" in notedPage) {
-                                    if (linkRef !== "" && (frontMatterType !== isYAML || templateType !== isJekyll)) {
+                                    if (linkRef !== "" && (frontMatterType !== isYAML || templateType !== "")) {
                                         linkRef += ", ";
                                     }
                                     linkRef += createNoteLink(notedPage.link, notedPage.title);
@@ -342,7 +353,7 @@ let outputPage = (function outputPage() {
                         return styleOutput;
                     }, 
                     "frontmatter": function frontmatter() {
-                        let outputData = [this.layout(), this.title(), this.description(), this.subject(), this.keywords(), this.auth(), this.altLangPage(), this.dateModified(), this.dateIssued(), this.breadcrumbs(), this.css(), this.script().value, this.feedbackData(), this.notedlinks()];
+                        let outputData = [this.layout(), this.title(), this.description(), this.subject(), this.keywords(), this.auth(), this.altLangPage(), this.dateModified(), this.dateIssued(), this.breadcrumbs(), this.pageClass(), this.css(), this.script().value, this.feedbackData(), this.notedlinks()];
 
                         return outputPage().formatOutputType(templateType, frontMatterType, outputData.join(""), "{\n" + outputData.filter(Boolean).join(", \n") + "\n}");
                     }, 
@@ -372,7 +383,11 @@ let outputPage = (function outputPage() {
                             mainCode = mainPageObj.getElementsByTagName("main");
 
                         if (mainCode.length > 0) {
-                            mainCodeObj = cleanMain(mainCode[0], pageLayout);
+                            if (templateType === "") {
+                                mainCodeObj = cleanMain(mainCode[0], pageLayout);
+                            } else {
+                                mainCodeObj = cleanMain(mainCode[0], "without-h1");
+                            }
                             return mainCodeObj.innerHTML.trim() + "\n";
                         }
                         return mainPageObj.documentElement.innerHTML.trim();
