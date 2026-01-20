@@ -295,12 +295,18 @@ let outputPage = (function outputPage() {
                     }, 
                     "notedlinks": function notedlinks() {
                         // Adds URLs as noted page links
-                        let notedPageArr, 
+                        let notedPageArr, linkVal, 
                             linkRef = "", 
                             createNoteLink = function createNoteLink(refURIStr, linkText) {
-                                let pageURI = new URL(refURIStr);
+                                let pageURI;
 
-                                return outputPage().formatOutputType(templateType, frontMatterType, "\n  - title: \"" + linkText + "\"\n    link: \"" + pageURI.origin + pageURI.pathname + "\"", "\n{\n\"title\": \"" + linkText + "\", \n\"link\": \"" + pageURI.origin + pageURI.pathname + "\"\n}");
+                                try {
+                                    pageURI = new URL(refURIStr);
+                                    return outputPage().formatOutputType(templateType, frontMatterType, "\n  - title: \"" + linkText + "\"\n    link: \"" + pageURI.origin + pageURI.pathname + "\"", "\n{\n\"title\": \"" + linkText + "\", \n\"link\": \"" + pageURI.origin + pageURI.pathname + "\"\n}");
+                                } catch (e) {
+                                    console.error("Invalid noted link URL");
+                                    return null;
+                                }
                             }, 
                             getJSONArr = function getJSONArr(jsonStr) {
                                 let arr;
@@ -323,10 +329,13 @@ let outputPage = (function outputPage() {
                         if (notedPageArr !== null) {
                             notedPageArr.forEach(function addNotedPage(notedPage) {
                                 if ("link" in notedPage && "title" in notedPage) {
-                                    if (linkRef !== "" && (frontMatterType !== isYAML || templateType !== "")) {
-                                        linkRef += ", ";
+                                    linkVal = createNoteLink(notedPage.link, notedPage.title);
+                                    if (linkVal !== null) {
+                                        if (linkRef !== "" && (frontMatterType !== isYAML || templateType !== "")) {
+                                            linkRef += ", ";
+                                        }
+                                        linkRef += linkVal;
                                     }
-                                    linkRef += createNoteLink(notedPage.link, notedPage.title);
                                 }
                             });
                         }
@@ -353,9 +362,14 @@ let outputPage = (function outputPage() {
                         return styleOutput;
                     }, 
                     "frontmatter": function frontmatter() {
-                        let outputData = [this.layout(), this.title(), this.description(), this.subject(), this.keywords(), this.auth(), this.altLangPage(), this.dateModified(), this.dateIssued(), this.breadcrumbs(), this.pageClass(), this.css(), this.script().value, this.feedbackData(), this.notedlinks()];
+                        let outputData = [this.layout(), this.title(), this.description(), this.subject(), this.keywords(), this.auth(), this.altLangPage(), this.dateModified(), this.dateIssued(), this.breadcrumbs(), this.pageClass(), this.css(), this.script().value, this.feedbackData(), this.notedlinks()], 
+                            fmData = outputPage().formatOutputType(templateType, frontMatterType, outputData.join(""), "{\n" + outputData.filter(Boolean).join(", \n") + "\n}");
 
-                        return outputPage().formatOutputType(templateType, frontMatterType, outputData.join(""), "{\n" + outputData.filter(Boolean).join(", \n") + "\n}");
+                        if (templateType === "") {
+                            return fmData;
+                        } else {
+                            return JSON.parse(fmData);
+                        }
                     }, 
                     "pagedata": function pagedata() {
                         return {

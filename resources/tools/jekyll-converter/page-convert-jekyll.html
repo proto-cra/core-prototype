@@ -10,6 +10,7 @@ share: false
 noFooterContextual: true
 noFooterCorporate: true
 noFooterMain: true
+script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2025-12-mille-iles.js
 ---
 
 <br>
@@ -238,8 +239,9 @@ noFooterMain: true
             } else {
                 htmlMain = pageData.cssCode + pageData.htmlCode;
             }
-
-            resultArea.value = "---\n" + pageData.fmCode + "\n---\n\n" + htmlMain.replace(new RegExp("([\r\n]+?\s+)(?=>)", "gm"), "");
+            if (templateType === "") {
+                resultArea.value = "---\n" + pageData.fmCode + "---\n\n" + htmlMain.replace(new RegExp("([\r\n]+?\s+)(?=>)", "gm"), "");
+            }
             resultArea.focus();
             resultArea.scrollTop = 0;
             resultArea.selectionStart = 0;
@@ -247,9 +249,13 @@ noFooterMain: true
             showHideInvis(document.getElementById("addScripts").checked, "scriptresults");
             document.getElementById("scripttext").value = pageData.scriptCode;
             if (document.getElementById("github_path").value !== "") {
-                githubPath = document.getElementById("github_path").value;
-                if (githubPath.charAt(githubPath.length - 1) !== "/") {
-                    githubPath = githubPath + "/";
+                try {
+                    githubPath = document.getElementById("github_path").value;
+                    if (githubPath.charAt(githubPath.length - 1) !== "/") {
+                        githubPath = githubPath + "/";
+                    }
+                } catch (e) {
+                    console.error("Invalid GitHub destination path");
                 }
             }
             fileName = getFilenameFromUrl(targetURL.pathname);
