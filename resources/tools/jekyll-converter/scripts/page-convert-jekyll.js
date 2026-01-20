@@ -363,7 +363,7 @@ let outputPage = (function outputPage() {
                     }, 
                     "frontmatter": function frontmatter() {
                         let outputData = [this.layout(), this.title(), this.description(), this.subject(), this.keywords(), this.auth(), this.altLangPage(), this.dateModified(), this.dateIssued(), this.breadcrumbs(), this.pageClass(), this.css(), this.script().value, this.feedbackData(), this.notedlinks()], 
-                            fmData = outputPage().formatOutputType(templateType, frontMatterType, outputData.join(""), "{\n" + outputData.filter(Boolean).join(", \n") + "\n}");
+                            fmData = outputPage().formatOutputType(templateType, frontMatterType, outputData.join(""), "{\n" + outputData.filter(Boolean).join(", \n") + "\n}\n");
 
                         if (templateType === "") {
                             return fmData;
