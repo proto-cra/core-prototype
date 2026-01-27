@@ -157,7 +157,7 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
             <textarea id="redirectfiletext" name="scripts" cols="132" autofocus="autofocus" class="form-control input-md mrgn-bttm-md full-width wb-clipboard" aria-labelledby="contentlabel" aria-multiline="true" rows="5"></textarea>
             <!-- END Result textarea -->
         </div>
-        <!--
+<!--
         <button id="cleartextbtn" class="btn btn-default mrgn-bttm-md mrgn-lft-0"><strong>Clear text</strong></button>
 -->
     </fieldset>
@@ -195,11 +195,40 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
             } else {
                 document.getElementById(elmId).classList.add("wb-inv");
             }
+        }, 
+        loadTemplate = async function loadTemplate(url, data) {
+            // Fetch the external HTML file content
+            const response = await fetch(url);
+            let htmlString, placeholder;
+
+/*
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+*/
+            htmlString = await response.text();
+            // Manually replace placeholders in the string with data
+            for (const key in data) {
+                if (Object.hasOwn(data, key) === true) {                
+                    // Simple string replacement for ${key}
+                    placeholder = new RegExp(`\\\$\\\{${key}\\\}`, "g");
+                    htmlString = htmlString.replace(placeholder, data[key]);
+                }
+            }
+            return htmlString;
+        }, 
+        renderTemplate = function renderTemplate(template, data) {
+            // Create a function that takes 'frontData' and returns the evaluated template literal
+            let frontData = data.fmCode;
+            const templateFunction = new Function("frontData", `return \`${template}\``);
+
+            return templateFunction(frontData);
         };
+
 
     // submit button
     document.getElementById("submitbutton").addEventListener("click", async function (e) {
-        let htmlMain, targetURL, templateType, frontMatterType, 
+        let htmlMain, targetURL, templateType, frontMatterType, gitFilename, 
             pageData = "", 
             githubPath = "", 
             convertObj = "";
@@ -241,6 +270,16 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
             }
             if (templateType === "") {
                 resultArea.value = "---\n" + pageData.fmCode + "---\n\n" + htmlMain.replace(new RegExp("([\r\n]+?\s+)(?=>)", "gm"), "");
+            } else {
+                // Use the function to load, process, and display the CDTS template
+                pageData.fmCode.htmlMain = htmlMain;
+                loadTemplate(templateType, pageData)
+                    .then(function processHTML(finalHTML) {
+                        resultArea.value = renderTemplate(finalHTML, pageData);
+                    })
+                    .catch(function errMSG(error) {
+                        console.error("Could not load the template:", error);
+                    });
             }
             resultArea.focus();
             resultArea.scrollTop = 0;
@@ -249,17 +288,17 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
             showHideInvis(document.getElementById("addScripts").checked, "scriptresults");
             document.getElementById("scripttext").value = pageData.scriptCode;
             if (document.getElementById("github_path").value !== "") {
-                try {
-                    githubPath = document.getElementById("github_path").value;
-                    if (githubPath.charAt(githubPath.length - 1) !== "/") {
-                        githubPath = githubPath + "/";
-                    }
-                } catch (e) {
-                    console.error("Invalid GitHub destination path");
+                githubPath = decodeURI(document.getElementById("github_path").value);
+                gitFilename = githubPath.substring(githubPath.lastIndexOf("/") + 1);
+                if (gitFilename && gitFilename.lastIndexOf(".") > 0) {
+                    githubPath = githubPath.substring(0, githubPath.lastIndexOf("/") + 1);
+                }
+                if (githubPath.pathname.charAt(githubPath.pathname.length - 1) !== "/") {
+                    githubPath.pathname = githubPath.pathname + "/";
                 }
             }
             fileName = getFilenameFromUrl(targetURL.pathname);
-            document.getElementById("redirectfiletext").value = "    {\n      \"origin\": \"" + targetURL.origin + targetURL.pathname + "\", \n      \"destination\": \"" + githubPath + fileName + "\"\n    }, \n";
+            document.getElementById("redirectfiletext").value = "    {\n      \"origin\": \"" + targetURL.origin + targetURL.pathname + "\", \n      \"destination\": \"" + encodeURI(githubPath + fileName) + "\"\n    }, \n";
         }
         e.stopPropagation();
         e.preventDefault();
@@ -285,7 +324,7 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
         showHideInvis(document.getElementById("addScripts").checked, "scriptresults");
     });
 
-    document.getElementById("tmpltType").addEventListener("change", function (event) {
+    document.getElementById("tmpltType").addEventListener("change", function () {
         showHideInvis(document.getElementById("jekyll").checked, "layoutSelect");
         showHideInvis(document.getElementById("jekyll").checked, "fmRadiobox");
     });
@@ -392,10 +431,10 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
         e.preventDefault();
     });
 
-    /*
-        // clear text button
-        document.getElementById("cleartextbtn").addEventListener("click", function () {
-            document.getElementById("sourcetext").value = "";
-        });
-    */
+/*
+    // clear text button
+    document.getElementById("cleartextbtn").addEventListener("click", function () {
+        document.getElementById("sourcetext").value = "";
+    });
+*/
 </script>

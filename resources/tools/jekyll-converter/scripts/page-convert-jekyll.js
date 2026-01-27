@@ -8,7 +8,7 @@ let outputPage = (function outputPage() {
         "getPageObject": async function getPageObject(pageURIStr) {
             const parser = new DOMParser();
             let pageURI, data, result, 
-                absUrlRegEx = new RegExp("((?:<[a-z]+?\\s[^>]*?)(?:(?:href|src|cite|longdesc|action|formaction|poster|icon|manifest|srcset|data(?:-[a-z\\-]+)?)=['\"]))(\\/(?:[^\\/]{1}[^\'\"]+?))(?=['\"][^>]*?>)", "giv");
+                absUrlRegEx = new RegExp("((?:<[a-z]+?\\s[^>]*?)(?:(?:href|src|cite|longdesc|action|formaction|poster|icon|manifest|srcset|data(?:-[a-z\\-]+)?)=['\"]))(\\/(?:[^\\/]{1}[^'\"]+?))(?=['\"][^>]*?>)", "giv");
 
             if (pageURIStr !== "") {
                 pageURI = new URL(pageURIStr);
@@ -82,12 +82,12 @@ let outputPage = (function outputPage() {
                     }, checkURL);
                 }, 
                 cleanMain = function cleanMain(mainPageObj, pageLayout) {
-                    let headerElms, mwsElms, 
+                    let i, headerElms, mwsElms, 
                         cleanObj = mainPageObj.cloneNode(true), 
                         pagedetailsEl = cleanObj.getElementsByClassName("pagedetails");
 
                     // Removes page details section
-                    for (let i = pagedetailsEl.length - 1; i >= 0; i = i - 1) {
+                    for (i = pagedetailsEl.length - 1; i >= 0; i = i - 1) {
                         pagedetailsEl[i].remove();
                     }
                     // Removes <h1> if layout is not "without-h1"
@@ -111,7 +111,7 @@ let outputPage = (function outputPage() {
                 };
 
             if (pageObj === null || pageObj === "") {
-                return {"fmCode": "", "htmlCode": "", "cssCode": "", "scriptCode": ""};
+                return {"cssCode": "", "fmCode": "", "htmlCode": "", "scriptCode": ""};
             } else {
                 return {
                     "layout": function layout() {
@@ -216,7 +216,7 @@ let outputPage = (function outputPage() {
                     }, 
                     "css": function css() {
                         // Adds links to CSS files
-                        let cssLinks, 
+                        let cssLink, cssLinks, 
                             cssOutput = "", 
                             noMainPageObj = pageObj.cloneNode(true);
 
@@ -224,7 +224,7 @@ let outputPage = (function outputPage() {
                             noMainPageObj.getElementsByTagName("main")[0].remove();
                         }
                         cssLinks = noMainPageObj.querySelectorAll("link[rel=stylesheet]");
-                        for (let cssLink of cssLinks) {
+                        for (cssLink of cssLinks) {
                             if (islinkInTemplate(fileLinkArr.stylsheetsRegEx, cssLink.href, "iv", true) === false) {
                                 if (frontMatterType === isYAML && templateType === "") {
                                     cssOutput += "css: \"" + cssLink.href + "\"\n";
