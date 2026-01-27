@@ -225,10 +225,9 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
             return templateFunction(frontData);
         };
 
-
     // submit button
     document.getElementById("submitbutton").addEventListener("click", async function (e) {
-        let htmlMain, targetURL, templateType, frontMatterType, gitFilename, 
+        let htmlMain, targetURL, templateType, frontMatterType, gitPathFilename, 
             pageData = "", 
             githubPath = "", 
             convertObj = "";
@@ -268,6 +267,7 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
             } else {
                 htmlMain = pageData.cssCode + pageData.htmlCode;
             }
+
             if (templateType === "") {
                 resultArea.value = "---\n" + pageData.fmCode + "---\n\n" + htmlMain.replace(new RegExp("([\r\n]+?\s+)(?=>)", "gm"), "");
             } else {
@@ -289,12 +289,12 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
             document.getElementById("scripttext").value = pageData.scriptCode;
             if (document.getElementById("github_path").value !== "") {
                 githubPath = decodeURI(document.getElementById("github_path").value);
-                gitFilename = githubPath.substring(githubPath.lastIndexOf("/") + 1);
-                if (gitFilename && gitFilename.lastIndexOf(".") > 0) {
+                gitPathFilename = getFilenameFromUrl(githubPath);
+                if (gitPathFilename !== "" && gitPathFilename.lastIndexOf(".") > 0) {
                     githubPath = githubPath.substring(0, githubPath.lastIndexOf("/") + 1);
                 }
-                if (githubPath.pathname.charAt(githubPath.pathname.length - 1) !== "/") {
-                    githubPath.pathname = githubPath.pathname + "/";
+                if (githubPath.charAt(githubPath.length - 1) !== "/") {
+                    githubPath = githubPath + "/";
                 }
             }
             fileName = getFilenameFromUrl(targetURL.pathname);
