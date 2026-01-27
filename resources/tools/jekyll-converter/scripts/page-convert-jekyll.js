@@ -374,9 +374,9 @@ let outputPage = (function outputPage() {
                     }, 
                     "pagedata": function pagedata() {
                         return {
+                            "cssCode": this.style(), 
                             "fmCode": this.frontmatter(), 
                             "htmlCode": this.html(), 
-                            "cssCode": this.style(), 
                             "scriptCode": this.script().inline
                         };
                     }, 
