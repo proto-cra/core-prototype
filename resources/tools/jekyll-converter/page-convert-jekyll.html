@@ -217,7 +217,7 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
                 htmlString = await response.text();
                 // Manually replace placeholders in the string with data
                 for (const key in data) {
-                    if (Object.hasOwn(data, key) === true) {                
+                    if (Object.hasOwn(data, key) === true) {
                         // Simple string replacement for ${key}
                         placeholder = new RegExp(`\\\$\\\{${key}\\\}`, "g");
                         htmlString = htmlString.replace(placeholder, data[key]);
