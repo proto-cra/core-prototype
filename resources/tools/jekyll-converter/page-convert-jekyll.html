@@ -150,7 +150,7 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
             <br>
             <button id="githubsave" type="button" class="btn btn-default">Save page</button>
             <br>
-            <div id="scriptresults">
+            <div id="scriptresults" class="wb-inv">
                 <label for="scripttext" id="scriptlabel" class="control-label h5 mrgn-tp-md"><span class="field-name">Inline <code>&lt;script&gt;</code> tags:</span></label>
                 <textarea id="scripttext" name="scripts" cols="132" autofocus="autofocus" class="form-control input-md mrgn-bttm-md full-width wb-clipboard" aria-labelledby="contentlabel" aria-multiline="true" rows="10"></textarea>
                 <br>
@@ -292,6 +292,7 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
                 resultArea.scrollTop = 0;
                 resultArea.selectionStart = 0;
                 resultArea.selectionEnd = 0;
+                showHideInvis(pageData.scriptCode !== "", "scriptresults");
                 document.getElementById("scripttext").value = pageData.scriptCode;
                 if (document.getElementById("github_path").value !== "") {
                     githubPath = decodeURI(document.getElementById("github_path").value);
@@ -325,10 +326,6 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
 
     document.getElementById("redirectfiletext").addEventListener("focus", function () {
         this.select();
-    });
-
-    document.getElementById("addScripts").addEventListener("click", function () {
-        showHideInvis(document.getElementById("addScripts").checked, "scriptresults");
     });
 
     document.getElementById("tmpltType").addEventListener("change", function () {
@@ -393,7 +390,6 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
         showHideInvis(document.getElementById("jekyll").checked, "fmRadiobox");
         setCheckbox("style", "addStyles");
         setCheckbox("script", "addScripts");
-        showHideInvis(document.getElementById("addScripts").checked, "scriptresults");
         setCheckbox("prettier", "usePrettier");
         setCheckbox("mwsclassdivs", "removeMWSTags");
 
