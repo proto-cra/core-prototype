@@ -2,7 +2,7 @@
 
 let outputPage = (function outputPage() {
     "use strict";
-    let jsonFilePath = "https://proto-cra.github.io/core-prototype/resources/tools/jekyll-converter/data/template-links.json";
+    let jsonFilePath = "/core-prototype/resources/tools/jekyll-converter/data/template-links.json";
 
     return {
         "getPageObject": async function getPageObject(pageURIStr) {
