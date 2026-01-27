@@ -170,8 +170,7 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
 
     "use strict";
 
-    let fileName = "", 
-        resultArea = document.getElementById("sourcetext"), 
+    let resultArea = document.getElementById("sourcetext"), 
         getQueryEl = function getQueryEl(field) {
             // Get a querystring value
             const params = new Proxy(new URLSearchParams(window.location.search), {
@@ -180,14 +179,6 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
 
             return params[field];
         }, 
-        getFilenameFromUrl = function getFilenameFromUrl(uri) {
-            const lastSlashIndex = uri.lastIndexOf("/");
-
-            if (lastSlashIndex !== -1) {
-                return uri.substring(lastSlashIndex + 1);
-            }
-            return "";
-        }, 
         page_url = getQueryEl("uri"), 
         showHideInvis = function showHideInvis(isVisible, elmId) {
             if (isVisible === true) {
@@ -195,34 +186,6 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
             } else {
                 document.getElementById(elmId).classList.add("wb-inv");
             }
-        }, 
-        loadTemplate = async function loadTemplate(url, data) {
-            // Fetch the external HTML file content
-            const response = await fetch(url);
-            let htmlString, placeholder;
-
-/*
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-*/
-            htmlString = await response.text();
-            // Manually replace placeholders in the string with data
-            for (const key in data) {
-                if (Object.hasOwn(data, key) === true) {                
-                    // Simple string replacement for ${key}
-                    placeholder = new RegExp(`\\\$\\\{${key}\\\}`, "g");
-                    htmlString = htmlString.replace(placeholder, data[key]);
-                }
-            }
-            return htmlString;
-        }, 
-        renderTemplate = function renderTemplate(template, data) {
-            // Create a function that takes 'frontData' and returns the evaluated template literal
-            let frontData = data.fmCode;
-            const templateFunction = new Function("frontData", `return \`${template}\``);
-
-            return templateFunction(frontData);
         };
 
     // submit button
@@ -230,7 +193,44 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
         let htmlMain, targetURL, templateType, frontMatterType, gitPathFilename, 
             pageData = "", 
             githubPath = "", 
-            convertObj = "";
+            convertObj = "", 
+            fileName = "", 
+            isValidOutput = false, 
+            getFilenameFromUrl = function getFilenameFromUrl(uri) {
+                const lastSlashIndex = uri.lastIndexOf("/");
+
+                if (lastSlashIndex !== -1) {
+                    return uri.substring(lastSlashIndex + 1);
+                }
+                return "";
+            }, 
+            loadTemplate = async function loadTemplate(url, data) {
+                // Fetch the external HTML file content
+                const response = await fetch(url);
+                let htmlString, placeholder;
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                htmlString = await response.text();
+                // Manually replace placeholders in the string with data
+                for (const key in data) {
+                    if (Object.hasOwn(data, key) === true) {                
+                        // Simple string replacement for ${key}
+                        placeholder = new RegExp(`\\\$\\\{${key}\\\}`, "g");
+                        htmlString = htmlString.replace(placeholder, data[key]);
+                    }
+                }
+                isValidOutput = true;
+                return htmlString;
+            }, 
+            renderTemplate = function renderTemplate(template, data) {
+                // Create a function that takes 'frontData' and returns the evaluated template literal
+                let frontData = data.fmCode;
+                const templateFunction = new Function("frontData", `return \`${template}\``);
+
+                return templateFunction(frontData);
+            };
 
         fileName = "";
         resultArea.value = "";
@@ -241,8 +241,8 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
             templateType = document.querySelector("input[type=radio][name=template]:checked").value;
             frontMatterType = document.querySelector("input[type=radio][name=frontmatter]:checked").value;
             convertObj = await outputPage.convert(document.getElementById("layout").value, templateType, frontMatterType, document.getElementById("uri").value, document.getElementById("noted_page_array").value, document.getElementById("addStyles").checked, document.getElementById("addScripts").checked, document.getElementById("removeMWSTags").checked);
-            pageData = convertObj.pagedata();
-            if (document.getElementById("usePrettier").checked === true) {
+            if ("pagedata" in convertObj === true && document.getElementById("usePrettier").checked === true) {
+                pageData = convertObj.pagedata();
                 htmlMain = await prettier.format(pageData.cssCode + pageData.htmlCode, {
                     "parser": "html", 
                     "plugins": [prettierPluginEstree, prettierPluginHtml], 
@@ -265,11 +265,15 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
                     "vueIndentScriptAndStyle": true
                 });
             } else {
+                pageData = convertObj;
                 htmlMain = pageData.cssCode + pageData.htmlCode;
             }
 
             if (templateType === "") {
-                resultArea.value = "---\n" + pageData.fmCode + "---\n\n" + htmlMain.replace(new RegExp("([\r\n]+?\s+)(?=>)", "gm"), "");
+                if (htmlMain !== "") {
+                    resultArea.value = "---\n" + pageData.fmCode + "---\n\n" + htmlMain.replace(new RegExp("([\r\n]+?\s+)(?=>)", "gm"), "");
+                    isValidOutput = true;
+                }
             } else {
                 // Use the function to load, process, and display the CDTS template
                 pageData.fmCode.htmlMain = htmlMain;
@@ -281,24 +285,26 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
                         console.error("Could not load the template:", error);
                     });
             }
-            resultArea.focus();
-            resultArea.scrollTop = 0;
-            resultArea.selectionStart = 0;
-            resultArea.selectionEnd = 0;
             showHideInvis(document.getElementById("addScripts").checked, "scriptresults");
-            document.getElementById("scripttext").value = pageData.scriptCode;
-            if (document.getElementById("github_path").value !== "") {
-                githubPath = decodeURI(document.getElementById("github_path").value);
-                gitPathFilename = getFilenameFromUrl(githubPath);
-                if (gitPathFilename !== "" && gitPathFilename.lastIndexOf(".") > 0) {
-                    githubPath = githubPath.substring(0, githubPath.lastIndexOf("/") + 1);
+            if (isValidOutput === true) {
+                resultArea.focus();
+                resultArea.scrollTop = 0;
+                resultArea.selectionStart = 0;
+                resultArea.selectionEnd = 0;
+                document.getElementById("scripttext").value = pageData.scriptCode;
+                if (document.getElementById("github_path").value !== "") {
+                    githubPath = decodeURI(document.getElementById("github_path").value);
+                    gitPathFilename = getFilenameFromUrl(githubPath);
+                    if (gitPathFilename !== "" && gitPathFilename.lastIndexOf(".") > 0) {
+                        githubPath = githubPath.substring(0, githubPath.lastIndexOf("/") + 1);
+                    }
+                    if (githubPath.charAt(githubPath.length - 1) !== "/") {
+                        githubPath = githubPath + "/";
+                    }
                 }
-                if (githubPath.charAt(githubPath.length - 1) !== "/") {
-                    githubPath = githubPath + "/";
-                }
+                fileName = getFilenameFromUrl(targetURL.pathname);
+                document.getElementById("redirectfiletext").value = "    {\n      \"origin\": \"" + targetURL.origin + targetURL.pathname + "\", \n      \"destination\": \"" + encodeURI(githubPath + fileName) + "\"\n    }, \n";
             }
-            fileName = getFilenameFromUrl(targetURL.pathname);
-            document.getElementById("redirectfiletext").value = "    {\n      \"origin\": \"" + targetURL.origin + targetURL.pathname + "\", \n      \"destination\": \"" + encodeURI(githubPath + fileName) + "\"\n    }, \n";
         }
         e.stopPropagation();
         e.preventDefault();

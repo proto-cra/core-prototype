@@ -54,9 +54,9 @@ let outputPage = (function outputPage() {
         "convert": async function convert(pageLayout, templateType, frontMatterType, pageURIStr, notedPagesJSONStr, includeStyles, includeScripts, removeMWSdivs) {
             const isYAML = "yaml";
 
-            let pageObj = await this.getPageObject(pageURIStr), 
+            let pageTitleObj, 
+                pageObj = await this.getPageObject(pageURIStr), 
                 fileLinkArr = await this.getFileLinkList(jsonFilePath), 
-                pageTitleObj = pageObj.querySelector("meta[name=dcterms\\.title]"), 
                 getMetaDataContent = function getMetaDataContent(pageObj, fieldname, metafield, addQuote) {
                     // Add a Metadata value as a string
                     let encloseQuote = "", 
@@ -113,6 +113,7 @@ let outputPage = (function outputPage() {
             if (pageObj === null || pageObj === "") {
                 return {"cssCode": "", "fmCode": "", "htmlCode": "", "scriptCode": ""};
             } else {
+                pageTitleObj = pageObj.querySelector("meta[name=dcterms\\.title]");
                 return {
                     "layout": function layout() {
                         let mainCode = pageObj.getElementsByTagName("main")[0];
