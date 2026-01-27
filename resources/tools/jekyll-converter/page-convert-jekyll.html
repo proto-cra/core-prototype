@@ -238,7 +238,7 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
         resultArea.value = "";
         document.getElementById("scripttext").value = "";
         document.getElementById("redirectfiletext").value = "";
-        if (document.getElementById("uri").value !== "") {
+        if (document.getElementById("uri").value !== "" && URL.canParse(document.getElementById("uri").value) === true) {
             targetURL = new URL(document.getElementById("uri").value);
             templateType = document.querySelector("input[type=radio][name=template]:checked").value;
             frontMatterType = document.querySelector("input[type=radio][name=frontmatter]:checked").value;
