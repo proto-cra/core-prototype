@@ -242,29 +242,33 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
             templateType = document.querySelector("input[type=radio][name=template]:checked").value;
             frontMatterType = document.querySelector("input[type=radio][name=frontmatter]:checked").value;
             convertObj = await outputPage.convert(document.getElementById("layout").value, templateType, frontMatterType, document.getElementById("uri").value, document.getElementById("noted_page_array").value, document.getElementById("addStyles").checked, document.getElementById("addScripts").checked, document.getElementById("removeMWSTags").checked);
-            if ("pagedata" in convertObj === true && document.getElementById("usePrettier").checked === true) {
+            if ("pagedata" in convertObj === true) {
                 pageData = convertObj.pagedata();
-                htmlMain = await prettier.format(pageData.cssCode + pageData.htmlCode, {
-                    "parser": "html", 
-                    "plugins": [prettierPluginEstree, prettierPluginHtml], 
-                    "arrowParens": "always", 
-                    "bracketSameLine": false, 
-                    "bracketSpacing": false, 
-                    "embeddedLanguageFormatting": "auto", 
-                    "endOfLine": "crlf", 
-                    "htmlWhitespaceSensitivity": "css", 
-                    "jsxSingleQuote": false, 
-                    "objectWrap": "collapse", 
-                    "printWidth": Infinity, 
-                    "ProseWrap": "never", 
-                    "quoteProps": "consistent", 
-                    "singleAttributePerLine": false, 
-                    "singleQuote": false, 
-                    "tabWidth": 4, 
-                    "trailingComma": "none", 
-                    "useTabs": false, 
-                    "vueIndentScriptAndStyle": true
-                });
+                if (document.getElementById("usePrettier").checked === true) {
+                    htmlMain = await prettier.format(pageData.cssCode + pageData.htmlCode, {
+                        "parser": "html", 
+                        "plugins": [prettierPluginEstree, prettierPluginHtml], 
+                        "arrowParens": "always", 
+                        "bracketSameLine": false, 
+                        "bracketSpacing": false, 
+                        "embeddedLanguageFormatting": "auto", 
+                        "endOfLine": "crlf", 
+                        "htmlWhitespaceSensitivity": "css", 
+                        "jsxSingleQuote": false, 
+                        "objectWrap": "collapse", 
+                        "printWidth": Infinity, 
+                        "ProseWrap": "never", 
+                        "quoteProps": "consistent", 
+                        "singleAttributePerLine": false, 
+                        "singleQuote": false, 
+                        "tabWidth": 4, 
+                        "trailingComma": "none", 
+                        "useTabs": false, 
+                        "vueIndentScriptAndStyle": true
+                    });
+                } else {
+                    htmlMain = pageData.cssCode + pageData.htmlCode;
+                }
             } else {
                 pageData = convertObj;
                 htmlMain = pageData.cssCode + pageData.htmlCode;
