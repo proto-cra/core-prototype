@@ -363,7 +363,7 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
                 }
             };
 
-        document.getElementById("jekyllCnvrtBmrklt").href = encodeURI("javascript:(function(){location.href=\"https://proto-cra.github.io/core-prototype/resources/tools/jekyll-converter/page-convert-jekyll.html?uri=\"+encodeURIComponent(location.href);})();");
+        document.getElementById("jekyllCnvrtBmrklt").href = encodeURI("javascript:(function(){location.href=\"https://" + window.location.hostname + "/core-prototype/resources/tools/jekyll-converter/page-convert-jekyll.html?uri=\"+encodeURIComponent(location.href);})();");
 
         if (page_layout !== null && page_layout !== "") {
             document.getElementById("layout").value = decodeURIComponent(page_layout);
