@@ -98,7 +98,7 @@ let inlineStyleText1, inlineStyleText2,
                         }
                     }
                 });
-                exitElms = document.querySelector(".wb-exitscript");
+                exitElms = document.querySelectorAll(".wb-exitscript");
                 if (exitElms !== null && "exitByUrl" in exitPage.dataset && exitPage.dataset.exitByUrl.toLowerCase() === "true") {
                     exitElms.dispatchEvent(wbInitEvent);
                 }
