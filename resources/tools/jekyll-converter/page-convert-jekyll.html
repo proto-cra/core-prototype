@@ -291,10 +291,9 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
                     });
             }
             if (isValidOutput === true) {
-                resultArea.focus();
+                resultArea.select();
                 resultArea.scrollTop = 0;
-                resultArea.selectionStart = 0;
-                resultArea.selectionEnd = 0;
+                resultArea.focus();
                 showHideInvis(pageData.scriptCode !== "", "scriptresults");
                 document.getElementById("scripttext").value = pageData.scriptCode;
                 if (document.getElementById("github_path").value !== "") {
@@ -324,6 +323,10 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
     });
 
     document.getElementById("uri").addEventListener("focus", function () {
+        this.select();
+    });
+
+    resultArea.addEventListener("focus", function () {
         this.select();
     });
 
