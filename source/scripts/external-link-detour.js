@@ -19,12 +19,7 @@ let inlineStyleText1, inlineStyleText2,
     visitedLinkStyle = document.createElement("style"), 
     linkExcludes = [], 
     adjustLinks = function adjustLinks(elm, hrefSelector, actionSelector, formActionSelector, destStartPath) {
-        let exitElms, 
-            wbInitEvent = new CustomEvent("wb-init.wb-exitscript", {
-                bubbles: true, 
-                cancelable: true
-            }), 
-            linkExcludeIndex = function linkExcludeIndex(testURI) {
+        let linkExcludeIndex = function linkExcludeIndex(testURI) {
                 return linkExcludes.findIndex(function findlink(linkArr) {
                     if ("origin" in linkArr) {
                         return linkArr.origin.toLowerCase() === testURI.toLowerCase();
@@ -98,9 +93,8 @@ let inlineStyleText1, inlineStyleText2,
                         }
                     }
                 });
-                exitElms = document.querySelectorAll(".wb-exitscript");
-                if (exitElms !== null && "exitByUrl" in exitPage.dataset && exitPage.dataset.exitByUrl.toLowerCase() === "true") {
-                    exitElms.dispatchEvent(wbInitEvent);
+                if ("exitByUrl" in exitPage.dataset && exitPage.dataset.exitByUrl.toLowerCase() === "true") {
+                    $(".wb-exitscript").trigger("wb-init.wb-exitscript");
                 }
             }
 
