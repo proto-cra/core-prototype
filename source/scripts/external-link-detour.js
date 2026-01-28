@@ -7,9 +7,9 @@
 
 "use strict";
 
-//  exitPage.value = "https://proto-cra.github.io/gst-hst-business/exit-intent.html", 
+//  exitPage.value = "/source/exit-intent-e.html", 
 //  exitPage.dataset.exitByUrl = "false", 
-//  exitPage.dataset.modLinkFile = "https://proto-cra.github.io/gst-hst-business/templates/data/link_excludes.json", 
+//  exitPage.dataset.modLinkFile = "/source/data/exclude-redircet-links.json", 
 //  relExternalLnk.value = "false", 
 //  relExternalLnk.dataset.origin = "https://www.canada.ca", 
 
