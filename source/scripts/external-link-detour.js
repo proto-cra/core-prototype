@@ -19,7 +19,7 @@ let inlineStyleText1, inlineStyleText2,
     visitedLinkStyle = document.createElement("style"), 
     linkExcludes = [], 
     adjustLinks = function adjustLinks(elm, hrefSelector, actionSelector, formActionSelector, destStartPath) {
-        let exitElms = document.querySelector(".wb-exitscript"), 
+        let exitElms, 
             wbInitEvent = new CustomEvent("wb-init.wb-exitscript", {
                 bubbles: true, 
                 cancelable: true
@@ -98,6 +98,7 @@ let inlineStyleText1, inlineStyleText2,
                         }
                     }
                 });
+                exitElms = document.querySelector(".wb-exitscript");
                 if (exitElms !== null && "exitByUrl" in exitPage.dataset && exitPage.dataset.exitByUrl.toLowerCase() === "true") {
                     exitElms.dispatchEvent(wbInitEvent);
                 }
