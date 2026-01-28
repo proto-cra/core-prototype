@@ -193,9 +193,8 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
 
     // submit button
     document.getElementById("submitbutton").addEventListener("click", async function (e) {
-        let htmlMain, targetURL, templateType, frontMatterType, gitPathFilename, 
+        let htmlMain, targetURL, templateType, frontMatterType, 
             pageData = "", 
-            githubPath = "", 
             convertObj = "", 
             getFilenameFromUrl = function getFilenameFromUrl(uri) {
                 const lastSlashIndex = uri.lastIndexOf("/");
@@ -251,7 +250,7 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
                     }
                 }
                 fileName = getFilenameFromUrl(targetURL.pathname);
-                document.getElementById("redirectfiletext").value = "    {      \"origin\": \"" + targetURL.origin + targetURL.pathname + "\",       \"destination\": \"" + encodeURI(githubPath + fileName) + "\"    }, \n";
+                document.getElementById("redirectfiletext").value = "    {\n      \"origin\": \"" + targetURL.origin + targetURL.pathname + "\", \n      \"destination\": \"" + encodeURI(githubPath + fileName) + "\"\n    }, \n";
             };
 
         resultArea.value = "";
