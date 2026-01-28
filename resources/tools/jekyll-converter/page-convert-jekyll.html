@@ -197,7 +197,6 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
             pageData = "", 
             githubPath = "", 
             convertObj = "", 
-            isValidOutput = false, 
             getFilenameFromUrl = function getFilenameFromUrl(uri) {
                 const lastSlashIndex = uri.lastIndexOf("/");
 
@@ -223,7 +222,6 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
                         htmlString = htmlString.replace(placeholder, data[key]);
                     }
                 }
-                isValidOutput = true;
                 return htmlString;
             }, 
             renderTemplate = function renderTemplate(template, data) {
@@ -232,6 +230,28 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
                 const templateFunction = new Function("frontData", `return \`${template}\``);
 
                 return templateFunction(frontData);
+            }, 
+            formatResults = function formatResults(pageData, targetURL, fileName) {            
+                let gitPathFilename, 
+                    githubPath = "";
+
+                resultArea.select();
+                resultArea.scrollTop = 0;
+                resultArea.focus();
+                showHideInvis(pageData.scriptCode !== "", "scriptresults");
+                document.getElementById("scripttext").value = pageData.scriptCode;
+                if (document.getElementById("github_path").value !== "") {
+                    githubPath = decodeURI(document.getElementById("github_path").value);
+                    gitPathFilename = getFilenameFromUrl(githubPath);
+                    if (gitPathFilename !== "" && gitPathFilename.lastIndexOf(".") > 0) {
+                        githubPath = githubPath.substring(0, githubPath.lastIndexOf("/") + 1);
+                    }
+                    if (githubPath.charAt(githubPath.length - 1) !== "/") {
+                        githubPath = githubPath + "/";
+                    }
+                }
+                fileName = getFilenameFromUrl(targetURL.pathname);
+                document.getElementById("redirectfiletext").value = "    {      \"origin\": \"" + targetURL.origin + targetURL.pathname + "\",       \"destination\": \"" + encodeURI(githubPath + fileName) + "\"    }, \n";
             };
 
         resultArea.value = "";
@@ -277,7 +297,7 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
             if (templateType === "") {
                 if (htmlMain !== "") {
                     resultArea.value = "---\n" + pageData.fmCode + "---\n\n" + htmlMain.replace(new RegExp("([\r\n]+?\s+)(?=>)", "gm"), "");
-                    isValidOutput = true;
+                    formatResults(pageData, targetURL, fileName);
                 }
             } else {
                 // Use the function to load, process, and display the CDTS template
@@ -285,6 +305,7 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
                 loadTemplate(templateType, pageData)
                     .then(function processHTML(finalHTML) {
                         resultArea.value = renderTemplate(finalHTML, pageData);
+                        formatResults(pageData, targetURL, fileName);
                     })
                     .catch(function errMSG(error) {
                         console.error("Could not load the template:", error);
