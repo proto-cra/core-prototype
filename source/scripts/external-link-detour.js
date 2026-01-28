@@ -154,8 +154,8 @@ let inlineStyleText1, inlineStyleText2,
         }
     };
 
-document.addEventListener("readystatechange", function(event) {
-    if (event.target.readyState === "complete") {
+//document.addEventListener("readystatechange", function(event) {
+//    if (event.target.readyState === "complete") {
 
         //load link exclude JSON file
         if ("modLinkFile" in exitPage.dataset && exitPage.dataset.modLinkFile !== "") {
@@ -176,8 +176,8 @@ document.addEventListener("readystatechange", function(event) {
             document.head.insertAdjacentHTML("beforeend", visitedLinkStyle);
         }
 
-    }
-});
+//    }
+//});
 
 // changes all external site links and forms to go to destination link
 document.addEventListener("wet-boew-ready", function() {
@@ -185,20 +185,20 @@ document.addEventListener("wet-boew-ready", function() {
 });
 
 // changes all GCM Menu external site links and forms to go to destination link
-document.addEventListener("readystatechange", function(event) {
-    if (event.target.readyState === "complete") {
+//document.addEventListener("readystatechange", function(event) {
+//    if (event.target.readyState === "complete") {
         $(".gcweb-menu").on("wb-ready.gcweb-menu", function () {
             adjustLinks(this, ".gcweb-menu a[href^='http']:not([href^='" + rootDomain + "'], [data-exit='false'], .wb-exitscript), .gcweb-menu area[href^='http']:not([href^='" + rootDomain + "'], [data-exit='false'], .wb-exitscript)", ".gcweb-menu form[action^='http']:not([action^='" + rootDomain + "'], [data-exit='false'], .wb-exitscript)", ".gcweb-menu input[formaction^='http']:not([formaction^='" + rootDomain + "'], [data-exit='false'], .wb-exitscript), .gcweb-menu button[formaction^='http']:not([formaction^='" + rootDomain + "'], [data-exit='false'], .wb-exitscript)", "");
             if (relExternalLnk && relExternalLnk.value.toLowerCase() === "true" && relExternalLnk.dataset.origin !== "") {
                 adjustLinks(this, ".gcweb-menu a[href^='/']:not([data-exit='false'], .wb-exitscript), .gcweb-menu area[href^='/']:not([data-exit='false'], .wb-exitscript)", ".gcweb-menu form[action^='/']:not([data-exit='false'], .wb-exitscript)", ".gcweb-menu input[formaction^='/']:not([data-exit='false'], .wb-exitscript), .gcweb-menu button[formaction^='/']:not([data-exit='false'], .wb-exitscript)", relExternalLnk.dataset.origin);
             }
         });
-    }
-});
+//    }
+//});
 
 // changes all AJAXed external site links and forms to go to destination link
-document.addEventListener("readystatechange", function(event) {
-    if (event.target.readyState === "complete") {
+//document.addEventListener("readystatechange", function(event) {
+//    if (event.target.readyState === "complete") {
         $("[data-ajax-after], [data-ajax-append], [data-ajax-before], [data-ajax-prepend], [data-ajax-replace]").on("wb-contentupdated", function () {
             if (relExternalLnk && relExternalLnk.dataset.origin !== "") {
                 this.querySelectorAll("[icon^='/'], [poster^='/'], [src^='/'], [srcset^='/'], [data^='/']").forEach(function updateAjaxLinks(ajaxElm) {
@@ -220,5 +220,5 @@ document.addEventListener("readystatechange", function(event) {
             }
             defaultadjustLinks(this, true, relExternalLnk);
         });
-    }
-});
+//    }
+//});

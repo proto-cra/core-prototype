@@ -53,8 +53,8 @@ document.addEventListener("DOMContentLoaded", function initDevOpts(event) {
     }
 
     if (devOptionsLocStore === "true" || (devOptions !== null && devOptions.value.toLowerCase() === "true" && devOptionsLocStore !== "false")) {
-document.addEventListener("readystatechange", function(event) {
-    if (event.target.readyState === "complete") {
+//document.addEventListener("readystatechange", function(event) {
+//    if (event.target.readyState === "complete") {
         $("#site-banner-inc").on("wb-contentupdated", function () {
             let pageInfo, titleElm, subjectElm, descriptionElm, keywordsElm, modifyDateElm, issueDateElm, 
                 insertElm = document.getElementById(insertId), 
@@ -382,6 +382,6 @@ document.addEventListener("readystatechange", function(event) {
             }
         });
     }
-});
-    }
+//});
+//    }
 }, { once: true });

@@ -23,7 +23,7 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
         <li>Pages with <strong>most requested section</strong> should use a <strong>layout</strong> of <code>no-container</code></li>
     </ul>
 </section>
-<section>
+<div>
     <details>
         <summary class="h4">Creating a bookmarklet to launch the Export URL into Jekyll/CDTS page template tool</summary>
         <p>This bookmarklet works like a bookmark but will launch the <strong>Export URL into Jekyll/CDTS page template tool</strong> for the current page you are viewing.</p>
@@ -32,7 +32,7 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
             <li><a id="jekyllCnvrtBmrklt" href="#">Export URL into Jekyll/CDTS page template tool</a></li>
         </ul>
     </details>
-</section>
+</div>
 <div class="clearfix"></div>
 
 <div class="wb-frmvld">
@@ -119,7 +119,7 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
                 <div class="clearfix"></div>
                 <div class="form-group">
                     <div class="col-xs-12">
-                        <label for="noted_page_array" class="h5 mrgn-tp-sm">Noted page link JSON array:</label><a href="#notedpagehelp" aria-controls="notedpagehelp" class="wb-lbx mrgn-lft-sm" title="Noted page link JSON array information"><span class="glyphicon glyphicon-question-sign" role="button"></span><span class="wb-inv">Noted page link JSON array information</span></a>
+                        <label for="noted_page_array" class="h5 mrgn-tp-sm">Noted page link JSON array:</label><a href="#notedpagehelp" aria-controls="notedpagehelp" class="wb-lbx mrgn-lft-sm" title="Noted page link JSON array information"><span class="glyphicon glyphicon-question-sign"></span><span class="wb-inv">Noted page link JSON array information</span></a>
 
                         <textarea id="noted_page_array" class="form-control" rows="3" cols="47"></textarea>
                     </div>
@@ -152,11 +152,11 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
             <br>
             <div id="scriptresults" class="wb-inv">
                 <label for="scripttext" id="scriptlabel" class="control-label h5 mrgn-tp-md"><span class="field-name">Inline <code>&lt;script&gt;</code> tags:</span></label>
-                <textarea id="scripttext" name="scripts" cols="132" autofocus="autofocus" class="form-control input-md mrgn-bttm-md full-width wb-clipboard" aria-labelledby="contentlabel" aria-multiline="true" rows="10"></textarea>
+                <textarea id="scripttext" name="scripts" cols="132" class="form-control input-md mrgn-bttm-md full-width wb-clipboard" aria-labelledby="contentlabel" aria-multiline="true" rows="10"></textarea>
                 <br>
             </div>
             <label for="redirectfiletext" id="redirectfilelabel" class="control-label h5 mrgn-tp-md"><span class="field-name">JSON for redirect file:</span></label>
-            <textarea id="redirectfiletext" name="scripts" cols="132" autofocus="autofocus" class="form-control input-md mrgn-bttm-md full-width wb-clipboard" aria-labelledby="contentlabel" aria-multiline="true" rows="5"></textarea>
+            <textarea id="redirectfiletext" name="scripts" cols="132" class="form-control input-md mrgn-bttm-md full-width wb-clipboard" aria-labelledby="contentlabel" aria-multiline="true" rows="5"></textarea>
             <!-- END Result textarea -->
         </div>
 <!--
@@ -172,7 +172,8 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
 
     "use strict";
 
-    let resultArea = document.getElementById("sourcetext"), 
+    let fileName = "", 
+        resultArea = document.getElementById("sourcetext"), 
         getQueryEl = function getQueryEl(field) {
             // Get a querystring value
             const params = new Proxy(new URLSearchParams(window.location.search), {
@@ -196,7 +197,6 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
             pageData = "", 
             githubPath = "", 
             convertObj = "", 
-            fileName = "", 
             isValidOutput = false, 
             getFilenameFromUrl = function getFilenameFromUrl(uri) {
                 const lastSlashIndex = uri.lastIndexOf("/");
