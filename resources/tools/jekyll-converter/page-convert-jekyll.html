@@ -344,7 +344,7 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
     document.addEventListener("DOMContentLoaded", async function () {
         let githubPath_qrystr = getQueryEl("github_path"), 
             page_layout = getQueryEl("layout"), 
-            Template_type = getQueryEl("template"), 
+            template_Type = getQueryEl("template"), 
             front_Matter = getQueryEl("frontmatter"), 
             noted_page_Arr = getQueryEl("noted_page_array"), 
             evt = document.createEvent("MouseEvents"), 
@@ -385,9 +385,9 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
             });
         }
 
-        if (Template_type !== null && Template_type !== "") {
+        if (template_Type !== null && template_Type !== "") {
             document.querySelectorAll("input[type='radio'][name='template']").forEach(function (radio) {
-                if (radio.value === decodeURIComponent(Template_type)) {
+                if (radio.value === decodeURIComponent(template_Type)) {
                     radio.checked = true;
                 }
             });
