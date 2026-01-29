@@ -337,6 +337,10 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
         this.select();
     });
 
+    document.getElementById("addScripts").addEventListener("click", function () {
+        showHideInvis(document.getElementById("addScripts").checked  === true && document.getElementById("scripttext").value !== "", "scriptresults");
+    });
+
     document.getElementById("tmpltType").addEventListener("change", function () {
         showHideInvis(document.getElementById("jekyll").checked, "layoutSelect");
         showHideInvis(document.getElementById("jekyll").checked, "fmRadiobox");
