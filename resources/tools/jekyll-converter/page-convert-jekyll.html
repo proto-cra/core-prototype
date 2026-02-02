@@ -17,17 +17,17 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
 <section class="alert alert-info">
     <h2>Note:</h2>
     <p>This tool reads most of the data used to populate the <strong>Front Matter</strong> section of the generated template from the <code>&lt;meta&gt;</code> tag section of the page so if there is none or limited <code>&lt;meta&gt;</code> tags then some data may not be generated.</p>
-    <p>Also:</p>
+    <p>Also in relation to <strong>layout</strong> choices:</p>
     <ul>
         <li>Pages with <strong>subways</strong> normally use a <strong>layout</strong> of <code>without-h1</code> </li>
         <li>Pages with <strong>most requested section</strong> should use a <strong>layout</strong> of <code>no-container</code></li>
-    </ul>
+        <li>The <abbr title="Centrally Deployed Templates Solution">CDTS</abbr> template type is not configured to support the <code>no-container</code> and <code>gcds</code> <strong>layout</strong> options</li>
 </section>
 <div>
     <details>
         <summary class="h4">Creating a bookmarklet to launch the Export URL into Jekyll/CDTS page template tool</summary>
-        <p>This bookmarklet works like a bookmark but will launch the <strong>Export URL into Jekyll/CDTS page template tool</strong> for the current page you are viewing.</p>
-        <p>To create a bookmarklet for the <strong>Export URL into Jekyll/CDTS page template tool</strong> right-click the following link and select <strong>Add to favorites…</strong> or drag the link to your favorites or favorites bar.</p>
+        <p>This bookmarklet works like a bookmark but will launch the <strong>Export URL into Jekyll/<abbr title="Centrally Deployed Templates Solution">CDTS</abbr> page template tool</strong> for the current page you are viewing.</p>
+        <p>To create a bookmarklet for the <strong>Export URL into Jekyll/<abbr title="Centrally Deployed Templates Solution">CDTS</abbr> page template tool</strong> right-click the following link and select <strong>Add to favorites…</strong> or drag the link to your favorites or favorites bar.</p>
         <ul class="mrgn-tp-md list-unstyled">
             <li><a id="jekyllCnvrtBmrklt" href="#">Export URL into Jekyll/CDTS page template tool</a></li>
         </ul>
@@ -41,14 +41,14 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
         <legend class="mrgn-tp-sm h2">Page information</legend>
         <div class="clearfix"></div>
         <div class="row">
-            <fieldset id="tmpltType" class="gc-chckbxrdio form-inline mrgn-lft-md mrgn-bttm-md wb-inv">
+            <fieldset id="tmpltType" class="gc-chckbxrdio form-inline mrgn-lft-md mrgn-bttm-md">
                 <legend>Template type:</legend>
                 <div class="radio label-inline">
                     <input id="jekyll" type="radio" name="template" value="" checked="checked">
                     <label for="jekyll">Jekyll</label>
                 </div>
                 <div class="radio label-inline">
-                    <input id="cdts" type="radio" name="template" value="cdts">
+                    <input id="cdts" type="radio" name="template" value="/core-prototype/resources/tools/jekyll-converter/data/cdts-export-template-e.tpl">
                     <label for="cdts"><abbr title="Centrally Deployed Templates Solution">CDTS</abbr></label>
                 </div>
             </fieldset>
