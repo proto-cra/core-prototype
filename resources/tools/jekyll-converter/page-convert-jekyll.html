@@ -191,6 +191,14 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
                 document.getElementById(elmId).classList.add("wb-inv");
             }
         }, 
+        getFilenameFromUrl = function getFilenameFromUrl(uri) {
+            const lastSlashIndex = uri.lastIndexOf("/");
+
+            if (lastSlashIndex !== -1) {
+                return uri.substring(lastSlashIndex + 1);
+            }
+            return "";
+        }, 
         getFilename = function () {
             let targetURL;
 
@@ -213,14 +221,6 @@ script: https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/m%C3%A9li-m%C3%A9lo/2
         let htmlMain, targetURL, templateType, frontMatterType, 
             pageData = "", 
             convertObj = "", 
-            getFilenameFromUrl = function getFilenameFromUrl(uri) {
-                const lastSlashIndex = uri.lastIndexOf("/");
-
-                if (lastSlashIndex !== -1) {
-                    return uri.substring(lastSlashIndex + 1);
-                }
-                return "";
-            }, 
             loadTemplate = async function loadTemplate(url, data) {
                 // Fetch the external HTML file content
                 const response = await fetch(url);
